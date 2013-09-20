@@ -3,6 +3,7 @@ from PIL import Image
 import os
 import imghdr
 import time
+from array import array
 
 texture_dir = "/Users/kasoki/Projects/opentp/textures"
 atlas_dest = "/Users/kasoki/Projects/opentp/atlas"
@@ -11,6 +12,11 @@ atlas_output_format = "png"
 atlas_size = (512, 512)
 
 supported_image_formats = ("png", "jpeg", "gif")
+
+be_quiet_about_line_timestamps_below = 0.001
+
+execution_start_time = time.time()
+line_times_list = []
 
 def get_supported_images():
 	""" returns a list of image file names which are in the "texture_dir" directory """
@@ -34,137 +40,88 @@ def get_supported_images():
 	
 	return images
 
-class Rectangle:
-	def __init__(self, x, y, width, height):
-		self.x = x
-		self.y = y
-		self.width = width
-		self.height = height
+def compare_image_size(img_name_1, img_name_2):
+	img1 = Image.open(os.path.join(texture_dir, img_name_1))
+	img2 = Image.open(os.path.join(texture_dir, img_name_2))
 	
-	def left(self):
-		return self.x
+	return (img1.size[0] * img1.size[1]) - (img2.size[0] * img2.size[1])
+
+def get_matrix(matrix, x, y):
+	return matrix[atlas_size[0] * y + x]
 		
-	def right(self):
-		return self.x + self.width
+
+def set_matrix(matrix, x, y, val):
+	matrix[atlas_size[0] * y + x] = val
+
+def image_fits(matrix, image_size, x, y):
+	image_width = image_size[0]
+	image_height = image_size[1]
 	
-	def top(self):
-		return self.y
-		
-	def bottom(self):
-		return self.y + self.height
-		
-	def to_tuple(self):
-		return (self.x, self.y, self.width, self.height)
-		
-	def fits_in(self, rect):
-		if self.width <= rect.width and self.height <= rect.height:
-			return True
-		else:
-			return False
+	for local_y in range(image_height):
+		for local_x in range(image_width):
+			if get_matrix(matrix, x + local_x, y + local_y) is not '0':
+				return False
+	return True
 
-class Node:
-	counter = 0
-	steps = 0
-	def __init__(self, rect):
-		self.children = [None, None]
-		self.image_name = None
-		self.rect = rect
-		self.parent = None
-		self.id = Node.counter
-		Node.counter += 1
-		
-	def is_leaf(self):
-		if self.children == [None, None]:
-			return True
-			
-		return False
-		
-	def insert(self, image_name):
-		Node.steps += 1
-		
-		img = Image.open(os.path.join(texture_dir, image_name))
-		
-		new_image_rect = Rectangle(self.rect.x, self.rect.y, img.size[0], 
-					img.size[1])
-		
-		# does the new image fits into our rectangle?
-		if not new_image_rect.fits_in(self.rect):
-			return None
-		
-		if self.is_leaf():
-			if not self.image_name:				
-				new_empty_rect = Rectangle(new_image_rect.right(), self.rect.y, 
-					self.rect.width - new_image_rect.width, 
-					self.rect.height - new_image_rect.height)
-				
-				img_parent_node = Node(Rectangle(new_image_rect.x, new_image_rect.y, 
-					self.rect.width, new_image_rect.height))
-				
-				img_parent_node.parent = self
-				self.children[0] = img_parent_node
-				
-				img_uncle_node = Node(Rectangle(img_parent_node.rect.bottom(),
-					self.rect.y,
-					img_parent_node.rect.width,
-					self.rect.height - img_parent_node.rect.height))
-					
-				img_uncle_node.parent = self
-				self.children[1] = img_uncle_node
-				
-				img_parent_node.children[0] = Node(new_image_rect)
-				img_parent_node.children[1] = Node(new_empty_rect)
-				
-				img_parent_node.children[0].parent = img_parent_node
-				img_parent_node.children[1].parent = img_parent_node
-				
-				img_parent_node.children[0].image_name = image_name
-				
-				return img_parent_node.children[0]
-			else:
-				return None
-		else:
-			for child in self.children:
-				child.insert(image_name)
-				
-def copy_into_picture(image, node):
-	if node.image_name:
-		tmp_img = Image.open(os.path.join(texture_dir, node.image_name))
-		image.paste(tmp_img, (node.rect.x, node.rect.y))#node.rect.to_tuple())
-
-	for child in node.children:
-		if child:
-			copy_into_picture(image, child)
+def paste_image_into_atlas_image(matrix, atlas_image, image, x, y):
+	image_width = image.size[0]
+	image_height = image.size[1]
+	
+	atlas_image.paste(image, (x, y))
+	
+	for local_y in range(image_height):
+		for local_x in range(image_width):
+			set_matrix(matrix, x + local_x, y + local_y, '1')
 
 if __name__ == "__main__":
 	images = get_supported_images()
 	
-	im = Image.new("RGBA", atlas_size)
+	# sort images by the amount of pixels they'd take (largest first)
+	images = sorted(images, cmp=compare_image_size, reverse=True)
 	
-	root = Node(Rectangle(0, 0, atlas_size[0], atlas_size[1]))
+	# create matrix for atlas_image
+	matrix = array('c')
 	
-	counter = 0
-	image_len = len(images)
-	
-	sq_pixels = atlas_size[0] * atlas_size[1]
-	
-	images = images[0:35]
-	
-	for image_name in images:
-		path = os.path.join(texture_dir, image_name)
+	for i in range((atlas_size[0] + 1) * (atlas_size[1] + 1)):
+		matrix.append('0')
 
-		Node.steps = 0
-		root.insert(image_name)
-		counter += 1
-		print("Took %s steps. %s/%s images" % (Node.steps, counter, image_len))
-		
-		img = Image.open(path)
-		
-		sq_pixels -= (img.size[0] * img.size[1])
-		
-		print("\t%s Square Pixels remaining" % sq_pixels)
-		
+	# create new image
+	atlas_image = Image.new("RGBA", atlas_size)
 	
-	copy_into_picture(im, root)
+	# fill atlas image with textures
+	for y in range(atlas_size[1]):
+		start = time.time()
+		for x in range(atlas_size[0]):
+		
+			if(get_matrix(matrix, x, y) is not '0'):
+				continue
+		
+			for img_name in images:
+				img = Image.open(os.path.join(texture_dir, img_name))
+				
+				# check if the image may fit 
+				if x + img.size[0] > atlas_size[0] or y + img.size[1] > atlas_size[1]:
+					continue
+				
+				if image_fits(matrix, img.size, x, y):
+					print("%s: fits into: pos: {%s, %s} size: {%s, %s}" % (img_name, 
+						x, y, img.size[0], img.size[1]))
+				
+					paste_image_into_atlas_image(matrix, atlas_image, img, x, y)
+					
+					# remove image from array
+					images.remove(img_name)
+					
+		time_for_last_line = time.time() - start
+		
+		line_times_list.append(time_for_last_line)
+		
+		if time_for_last_line > be_quiet_about_line_timestamps_below:
+			print("Line %s took %s seconds." % (y, time_for_last_line))
+				
 	
 	path = os.path.join(atlas_dest, "%s.%s" % (atlas_name, atlas_output_format))
-	im.save(path, atlas_output_format)
+	atlas_image.save(path, atlas_output_format)
+	
+	print("Atlas creation took %s seconds." % (time.time() - execution_start_time))
+	print("Average time per line was %s seconds." % (sum(line_times_list) / float(len(line_times_list))))
