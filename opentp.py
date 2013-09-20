@@ -4,6 +4,7 @@ import os
 import imghdr
 import time
 from array import array
+from copy import copy
 
 texture_dir = "/Users/kasoki/Projects/opentp/textures"
 atlas_dest = "/Users/kasoki/Projects/opentp/atlas"
@@ -74,10 +75,13 @@ def paste_image_into_atlas_image(matrix, atlas_image, image, x, y):
 			set_matrix(matrix, x + local_x, y + local_y, '1')
 
 if __name__ == "__main__":
-	images = get_supported_images()
+	supported_images = get_supported_images()
 	
 	# sort images by the amount of pixels they'd take (largest first)
-	images = sorted(images, cmp=compare_image_size, reverse=True)
+	supported_images = sorted(supported_images, cmp=compare_image_size, reverse=True)
+	
+	# copy supported_images
+	images = copy(supported_images)
 	
 	# create matrix for atlas_image
 	matrix = array('c')
@@ -99,8 +103,13 @@ if __name__ == "__main__":
 			for img_name in images:
 				img = Image.open(os.path.join(texture_dir, img_name))
 				
+				# remove images which wouldn't fit anymore
+				if y + img.size[1] > atlas_size[1]:
+					images.remove(img_name)
+					continue
+				
 				# check if the image may fit 
-				if x + img.size[0] > atlas_size[0] or y + img.size[1] > atlas_size[1]:
+				if x + img.size[0] > atlas_size[0]:
 					continue
 				
 				if image_fits(matrix, img.size, x, y):
@@ -109,7 +118,8 @@ if __name__ == "__main__":
 				
 					paste_image_into_atlas_image(matrix, atlas_image, img, x, y)
 					
-					# remove image from array
+					# remove image from supported_images and copied array
+					supported_images.remove(img_name)
 					images.remove(img_name)
 					
 		time_for_last_line = time.time() - start
