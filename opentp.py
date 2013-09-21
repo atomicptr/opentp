@@ -152,5 +152,5 @@ if __name__ == "__main__":
 	print("###" * 5)
 	print("")
 	print("Whole Atlas creation took %s seconds." % (time.time() - execution_start_time))
-	print("Average Atlas creation took %s seconds." % (sum(atlas_times_list) / float(lent(atlas_times_list))))
+	print("Average Atlas creation took %s seconds." % (sum(atlas_times_list) / float(len(atlas_times_list))))
 	print("Average time per line was %s seconds." % (sum(line_times_list) / float(len(line_times_list))))
