@@ -67,7 +67,7 @@ def get_atlas_data():
 	if atlas_data_format is "json":
 		return JSONEncoder().encode(atlas_data), "json"
 	elif atlas_data_format is "xml":
-		root = ET.Element("texture_atlas")
+		root = ET.Element("texture-atlas")
 		
 		for data in atlas_data:
 			e = ET.SubElement(root, "texture", {
