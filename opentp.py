@@ -6,6 +6,7 @@ import time
 from array import array
 from copy import copy
 
+#### settings
 texture_dir = "/Users/kasoki/Projects/opentp/textures"
 atlas_dest = "/Users/kasoki/Projects/opentp/atlas"
 atlas_name = "opentp_atlas"
@@ -14,10 +15,14 @@ atlas_size = (512, 512)
 
 supported_image_formats = ("png", "jpeg", "gif")
 
+#### profiler things
 be_quiet_about_line_timestamps_below = 0.001
 
 execution_start_time = time.time()
 line_times_list = []
+atlas_times_list = []
+
+
 
 def get_supported_images():
 	""" returns a list of image file names which are in the "texture_dir" directory """
@@ -79,59 +84,73 @@ if __name__ == "__main__":
 	
 	# sort images by the amount of pixels they'd take (largest first)
 	supported_images = sorted(supported_images, cmp=compare_image_size, reverse=True)
-	
-	# copy supported_images
-	images = copy(supported_images)
-	
-	# create matrix for atlas_image
-	matrix = array('c')
-	
-	for i in range((atlas_size[0] + 1) * (atlas_size[1] + 1)):
-		matrix.append('0')
 
-	# create new image
-	atlas_image = Image.new("RGBA", atlas_size)
+	atlas_counter = 0
 	
-	# fill atlas image with textures
-	for y in range(atlas_size[1]):
-		start = time.time()
-		for x in range(atlas_size[0]):
+	while len(supported_images) > 0:
+		# copy supported_images (this array exists only for performance reasons)
+		images = copy(supported_images)
+	
+		# create new image
+		atlas_image = Image.new("RGBA", atlas_size)
 		
-			if(get_matrix(matrix, x, y) is not '0'):
-				continue
+		# create matrix for atlas_image
+		matrix = array('c')
+	
+		for i in range((atlas_size[0] + 1) * (atlas_size[1] + 1)):
+			matrix.append('0')
 		
-			for img_name in images:
-				img = Image.open(os.path.join(texture_dir, img_name))
-				
-				# remove images which wouldn't fit anymore
-				if y + img.size[1] > atlas_size[1]:
-					images.remove(img_name)
+		atlas_time_stamp = time.time()
+		
+		# fill atlas image with textures
+		for y in range(atlas_size[1]):
+			start = time.time()
+			for x in range(atlas_size[0]):
+		
+				if(get_matrix(matrix, x, y) is not '0'):
 					continue
-				
-				# check if the image may fit 
-				if x + img.size[0] > atlas_size[0]:
-					continue
-				
-				if image_fits(matrix, img.size, x, y):
-					print("%s: fits into: pos: {%s, %s} size: {%s, %s}" % (img_name, 
-						x, y, img.size[0], img.size[1]))
-				
-					paste_image_into_atlas_image(matrix, atlas_image, img, x, y)
-					
-					# remove image from supported_images and copied array
-					supported_images.remove(img_name)
-					images.remove(img_name)
-					
-		time_for_last_line = time.time() - start
 		
-		line_times_list.append(time_for_last_line)
+				for img_name in images:
+					img = Image.open(os.path.join(texture_dir, img_name))
+				
+					# remove images which wouldn't fit anymore
+					if y + img.size[1] > atlas_size[1]:
+						images.remove(img_name)
+						continue
+				
+					# check if the image may fit 
+					if x + img.size[0] > atlas_size[0]:
+						continue
+				
+					if image_fits(matrix, img.size, x, y):
+						print("%s: fits into: pos: {%s, %s} size: {%s, %s}" % (img_name, 
+							x, y, img.size[0], img.size[1]))
+				
+						paste_image_into_atlas_image(matrix, atlas_image, img, x, y)
+					
+						# remove image from supported_images and copied array
+						supported_images.remove(img_name)
+						images.remove(img_name)
+					
+			time_for_last_line = time.time() - start
 		
-		if time_for_last_line > be_quiet_about_line_timestamps_below:
-			print("Line %s took %s seconds." % (y, time_for_last_line))
+			line_times_list.append(time_for_last_line)
+		
+			if time_for_last_line > be_quiet_about_line_timestamps_below:
+				print("Line %s took %s seconds." % (y, time_for_last_line))
 				
 	
-	path = os.path.join(atlas_dest, "%s.%s" % (atlas_name, atlas_output_format))
-	atlas_image.save(path, atlas_output_format)
+		path = os.path.join(atlas_dest, "%s_%s.%s" % (atlas_name, atlas_counter, atlas_output_format))
+		atlas_image.save(path, atlas_output_format)
+		
+		print("Atlas #%s took %s seconds" % (atlas_counter, (time.time() - atlas_time_stamp)))
+		atlas_times_list.append(atlas_time_stamp)
+		
+		atlas_counter += 1
 	
-	print("Atlas creation took %s seconds." % (time.time() - execution_start_time))
+	print("")
+	print("###" * 5)
+	print("")
+	print("Whole Atlas creation took %s seconds." % (time.time() - execution_start_time))
+	print("Average Atlas creation took %s seconds." % (sum(atlas_times_list) / float(lent(atlas_times_list))))
 	print("Average time per line was %s seconds." % (sum(line_times_list) / float(len(line_times_list))))
