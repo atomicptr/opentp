@@ -14,7 +14,7 @@ texture_dir = "/Users/kasoki/Projects/opentp/textures"
 atlas_dest = "/Users/kasoki/Projects/opentp/atlas"
 atlas_name = "opentp_atlas"
 atlas_output_format = "png"
-atlas_size = (512, 512)
+atlas_size = (1024, 512)
 
 supported_image_formats = ("png", "jpeg", "gif")
 
@@ -126,8 +126,8 @@ if __name__ == "__main__":
 						continue
 				
 					if image_fits(matrix, img.size, x, y):
-						print("%s: fits into: pos: {%s, %s} size: {%s, %s}" % (img_name, 
-							x, y, img.size[0], img.size[1]))
+						print("%s: fits into: pos: {%s, %s} size: {%s, %s} (%s left)" % (img_name, 
+							x, y, img.size[0], img.size[1], len(supported_images)))
 				
 						paste_image_into_atlas_image(matrix, atlas_image, img, x, y)
 					
