@@ -7,6 +7,7 @@ from json import JSONEncoder
 
 import xml.etree.ElementTree as ET
 import os
+import sys
 import imghdr
 import time
 
@@ -18,6 +19,7 @@ atlas_name = "opentp_atlas"
 atlas_output_format = "png"
 atlas_data_format = "json"
 atlas_size = (4048, 128)
+verbose = False
 
 supported_image_formats = ("png", "jpeg", "gif")
 
@@ -154,8 +156,9 @@ if __name__ == "__main__":
 						continue
 				
 					if image_fits(matrix, img.size, x, y):
-						print("%s: fits into: pos: {%s, %s} size: {%s, %s} (%s left)" % (img_name, 
-							x, y, img.size[0], img.size[1], len(supported_images)))
+						if verbose:
+							print("%s: fits into: pos: {%s, %s} size: {%s, %s} (%s left)" % (img_name, 
+								x, y, img.size[0], img.size[1], len(supported_images)))
 				
 						paste_image_into_atlas_image(matrix, atlas_image, img, x, y)
 					
@@ -178,14 +181,15 @@ if __name__ == "__main__":
 		
 			line_times_list.append(time_for_last_line)
 		
-			if time_for_last_line > be_quiet_about_line_timestamps_below:
+			if time_for_last_line > be_quiet_about_line_timestamps_below and verbose:
 				print("Line %s took %s seconds." % (y, time_for_last_line))
 				
 	
 		path = os.path.join(atlas_dest, "%s_%s.%s" % (atlas_name, atlas_counter, atlas_output_format))
 		atlas_image.save(path, atlas_output_format)
 		
-		print("Atlas #%s took %s seconds" % (atlas_counter, (time.time() - atlas_time_stamp)))
+		if verbose:
+			print("Atlas #%s took %s seconds" % (atlas_counter, (time.time() - atlas_time_stamp)))
 		atlas_times_list.append(time.time() - atlas_time_stamp)
 		
 		atlas_counter += 1
@@ -200,9 +204,12 @@ if __name__ == "__main__":
 	file.close()
 	
 	### stats output
-	print("")
-	print("###" * 5)
-	print("")
-	print("Whole Atlas creation took %s seconds." % (time.time() - execution_start_time))
-	print("Average Atlas creation took %s seconds." % (sum(atlas_times_list) / float(len(atlas_times_list))))
-	print("Average time per line was %s seconds." % (sum(line_times_list) / float(len(line_times_list))))
+	if verbose:
+		print("")
+		print("###" * 5)
+		print("")
+		print("Whole Atlas creation took %s seconds." % (time.time() - execution_start_time))
+		print("Average Atlas creation took %s seconds." % (sum(atlas_times_list) / float(len(atlas_times_list))))
+		print("Average time per line was %s seconds." % (sum(line_times_list) / float(len(line_times_list))))
+	else:
+		print("Finished atlas creation after %s seconds." % (time.time() - execution_start_time))
