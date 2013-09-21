@@ -1,10 +1,13 @@
 #!/usr/bin/env python
+# Copyright (C) Christopher Kaster 2013. All Rights Reserved.
 from PIL import Image
+from array import array
+from copy import copy
+
 import os
 import imghdr
 import time
-from array import array
-from copy import copy
+
 
 #### settings
 texture_dir = "/Users/kasoki/Projects/opentp/textures"
