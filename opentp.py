@@ -3,7 +3,9 @@
 from PIL import Image
 from array import array
 from copy import copy
+from json import JSONEncoder
 
+import xml.etree.ElementTree as ET
 import os
 import imghdr
 import time
@@ -14,9 +16,13 @@ texture_dir = "/Users/kasoki/Projects/opentp/textures"
 atlas_dest = "/Users/kasoki/Projects/opentp/atlas"
 atlas_name = "opentp_atlas"
 atlas_output_format = "png"
-atlas_size = (1024, 512)
+atlas_data_format = "json"
+atlas_size = (4048, 128)
 
 supported_image_formats = ("png", "jpeg", "gif")
+
+### other stuff
+atlas_data = []
 
 #### profiler things
 be_quiet_about_line_timestamps_below = 0.001
@@ -54,6 +60,28 @@ def compare_image_size(img_name_1, img_name_2):
 	img2 = Image.open(os.path.join(texture_dir, img_name_2))
 	
 	return (img1.size[0] * img1.size[1]) - (img2.size[0] * img2.size[1])
+
+def get_atlas_data():
+	data = None
+
+	if atlas_data_format is "json":
+		return JSONEncoder().encode(atlas_data), "json"
+	elif atlas_data_format is "xml":
+		root = ET.Element("texture_atlas")
+		
+		for data in atlas_data:
+			e = ET.SubElement(root, "texture", {
+				"atlas_file": data["atlas_file"],
+				"name": data["name"]})
+			e_pos = ET.SubElement(e, "position", {
+				"x": str(data["position"]["x"]),
+				"y": str(data["position"]["y"]),
+				"width": str(data["position"]["width"]),
+				"height": str(data["position"]["height"])})
+				
+		return ET.tostring(root, encoding='utf8', method='xml'), "xml"
+	else:
+		raise ValueError("Unknown Atlas data format: %s" % atlas_data_format)
 
 def get_matrix(matrix, x, y):
 	return matrix[atlas_size[0] * y + x]
@@ -131,6 +159,17 @@ if __name__ == "__main__":
 				
 						paste_image_into_atlas_image(matrix, atlas_image, img, x, y)
 					
+						# add data to atlas
+						atlas_data.append({
+							"atlas_file": "%s_%s.%s" % (atlas_name, atlas_counter, atlas_output_format),
+							"name": img_name,
+							"position": {
+									"x": x,
+									"y": y,
+									"width": img.size[0],
+									"height": img.size[1]
+							}})
+					
 						# remove image from supported_images and copied array
 						supported_images.remove(img_name)
 						images.remove(img_name)
@@ -151,6 +190,16 @@ if __name__ == "__main__":
 		
 		atlas_counter += 1
 	
+	# save atlas data to file
+	data, extension = get_atlas_data()
+
+	file = open(os.path.join(atlas_dest, "%s.%s" % (atlas_name, extension)), "w")
+	
+	file.write(data)
+	
+	file.close()
+	
+	### stats output
 	print("")
 	print("###" * 5)
 	print("")
