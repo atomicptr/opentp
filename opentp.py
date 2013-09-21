@@ -65,7 +65,7 @@ def image_fits(matrix, image_size, x, y):
 	
 	for local_y in range(image_height):
 		for local_x in range(image_width):
-			if get_matrix(matrix, x + local_x, y + local_y) is not '0':
+			if get_matrix(matrix, x + local_x, y + local_y) is '1':
 				return False
 	return True
 
@@ -107,7 +107,7 @@ if __name__ == "__main__":
 			start = time.time()
 			for x in range(atlas_size[0]):
 		
-				if(get_matrix(matrix, x, y) is not '0'):
+				if get_matrix(matrix, x, y) is '1':
 					continue
 		
 				for img_name in images:
