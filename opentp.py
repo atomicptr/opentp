@@ -186,7 +186,7 @@ if __name__ == "__main__":
 		atlas_image.save(path, atlas_output_format)
 		
 		print("Atlas #%s took %s seconds" % (atlas_counter, (time.time() - atlas_time_stamp)))
-		atlas_times_list.append(atlas_time_stamp)
+		atlas_times_list.append(time.time() - atlas_time_stamp)
 		
 		atlas_counter += 1
 	
