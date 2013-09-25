@@ -18,7 +18,7 @@ atlas_dest = "/Users/kasoki/Projects/opentp/atlas"
 atlas_name = "opentp_atlas"
 atlas_output_format = "png"
 atlas_data_format = "json"
-atlas_size = (4048, 128)
+atlas_size = (512, 512)
 verbose = False
 
 supported_image_formats = ("png", "jpeg", "gif")
@@ -27,12 +27,21 @@ supported_image_formats = ("png", "jpeg", "gif")
 atlas_data = []
 
 #### profiler things
-be_quiet_about_line_timestamps_below = 0.001
+be_quiet_about_line_timestamps_below = 0.01
 
 execution_start_time = time.time()
 line_times_list = []
 atlas_times_list = []
 
+
+class AtlasTexture():
+	def __init__(self, image_name, image_size):
+		self.name = image_name
+		self.width = image_size[0]
+		self.height = image_size[1]
+		self.square_pixels = self.width * self.height
+	def get_image(self):
+		return Image.open(os.path.join(texture_dir, self.name))
 
 
 def get_supported_images():
@@ -51,17 +60,14 @@ def get_supported_images():
 					" be smaller than the atlas size (%sx%s)" % (img.filename, 
 					img.size[0], img.size[1], atlas_size[0], atlas_size[1]))
 			
-			images.append(file_name)
+			images.append(AtlasTexture(file_name, img.size))
 	
 	print("Found %s valid images." % (len(images)))
 	
 	return images
 
-def compare_image_size(img_name_1, img_name_2):
-	img1 = Image.open(os.path.join(texture_dir, img_name_1))
-	img2 = Image.open(os.path.join(texture_dir, img_name_2))
-	
-	return (img1.size[0] * img1.size[1]) - (img2.size[0] * img2.size[1])
+def compare_image_size(img1, img2):
+	return img1.square_pixels - img2.square_pixels
 
 def get_atlas_data():
 	data = None
@@ -92,24 +98,20 @@ def get_matrix(matrix, x, y):
 def set_matrix(matrix, x, y, val):
 	matrix[atlas_size[0] * y + x] = val
 
-def image_fits(matrix, image_size, x, y):
-	image_width = image_size[0]
-	image_height = image_size[1]
-	
-	for local_y in range(image_height):
-		for local_x in range(image_width):
+def image_fits(matrix, image, x, y):
+	for local_y in range(image.height):
+		for local_x in range(image.width):
 			if get_matrix(matrix, x + local_x, y + local_y) is '1':
 				return False
 	return True
 
 def paste_image_into_atlas_image(matrix, atlas_image, image, x, y):
-	image_width = image.size[0]
-	image_height = image.size[1]
+	img = image.get_image()	
+
+	atlas_image.paste(img, (x, y))
 	
-	atlas_image.paste(image, (x, y))
-	
-	for local_y in range(image_height):
-		for local_x in range(image_width):
+	for local_y in range(image.height):
+		for local_x in range(image.width):
 			set_matrix(matrix, x + local_x, y + local_y, '1')
 
 if __name__ == "__main__":
@@ -143,39 +145,37 @@ if __name__ == "__main__":
 				if get_matrix(matrix, x, y) is '1':
 					continue
 		
-				for img_name in images:
-					img = Image.open(os.path.join(texture_dir, img_name))
-				
+				for img in images:
 					# remove images which wouldn't fit anymore
-					if y + img.size[1] > atlas_size[1]:
-						images.remove(img_name)
+					if y + img.height > atlas_size[1]:
+						images.remove(img)
 						continue
 				
 					# check if the image may fit 
-					if x + img.size[0] > atlas_size[0]:
+					if x + img.width > atlas_size[0]:
 						continue
 				
-					if image_fits(matrix, img.size, x, y):
+					if image_fits(matrix, img, x, y):
 						if verbose:
-							print("%s: fits into: pos: {%s, %s} size: {%s, %s} (%s left)" % (img_name, 
-								x, y, img.size[0], img.size[1], len(supported_images)))
+							print("%s: fits into: pos: {%s, %s} size: {%s, %s} (%s left)" % (img.name, 
+								x, y, img.width, img.height, len(supported_images)))
 				
 						paste_image_into_atlas_image(matrix, atlas_image, img, x, y)
 					
 						# add data to atlas
 						atlas_data.append({
 							"atlas_file": "%s_%s.%s" % (atlas_name, atlas_counter, atlas_output_format),
-							"name": img_name,
+							"name": img.name,
 							"position": {
 									"x": x,
 									"y": y,
-									"width": img.size[0],
-									"height": img.size[1]
+									"width": img.width,
+									"height": img.height
 							}})
 					
 						# remove image from supported_images and copied array
-						supported_images.remove(img_name)
-						images.remove(img_name)
+						supported_images.remove(img)
+						images.remove(img)
 					
 			time_for_last_line = time.time() - start
 		
