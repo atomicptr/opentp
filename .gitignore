@@ -1,4 +1,7 @@
 *.pyc
 .DS_Store
-atlas/
-textures/
+build/
+*.swp
+*.png
+*.jpg
+*.gif
