@@ -1,12 +1,17 @@
-project(OpenTP_Examples)
+project(opentp-example)
+
+find_package(Boost REQUIRED COMPONENTS system filesystem)
+
+link_directories(${Boost_LIBRARY_DIRS})
+include_directories(${Boost_INCLUDE_DIR})
 
 include_directories("../opentp/include")
 
 file(GLOB OPENTP_EXAMPLE_SOURCES "source/*.cpp")
 
-add_executable(opentp-example ${OPENTP_EXAMPLE_SOURCES} ${OPENTP_HEADERS})
+add_executable(opentp-example ${OPENTP_EXAMPLE_SOURCES})
 
-target_link_libraries(opentp-example opentp)
+target_link_libraries(opentp-example opentp ${Boost_LIBRARIES})
 add_dependencies(opentp-example opentp)
 
 add_custom_command(

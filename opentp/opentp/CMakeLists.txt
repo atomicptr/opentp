@@ -1,4 +1,10 @@
-project(OpenTP)
+project(opentp)
+
+set(Boost_USE_STATIC_LIBS ON)
+find_package(Boost REQUIRED COMPONENTS system filesystem)
+
+link_directories(${Boost_LIBRARY_DIRS})
+include_directories(${Boost_INCLUDE_DIR})
 
 include_directories("include")
 
@@ -26,3 +32,5 @@ ELSE(BUILD_SHARED_LIB)
 	add_library(opentp ${OPENTP_HEADERS} ${OPENTP_SOURCES})
     ENDIF(BUILD_STATIC_LIBS)
 ENDIF(BUILD_SHARED_LIBS)
+
+target_link_libraries(opentp ${Boost_LIBRARIES})

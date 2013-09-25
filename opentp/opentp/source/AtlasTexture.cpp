@@ -7,6 +7,10 @@ AtlasTexture::AtlasTexture(string name, int width, int height) :
     square_pixels(width * height) {
 }
 
+AtlasTexture::~AtlasTexture() {
+    cout << "Atlas Texture " << name << " died." << endl;
+}
+
 string AtlasTexture::get_name() {
     return name;
 }

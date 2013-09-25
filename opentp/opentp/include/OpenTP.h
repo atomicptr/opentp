@@ -4,10 +4,12 @@
 #include <iostream>
 #include <string>
 #include <list>
+#include <boost/filesystem.hpp>
 
 #include <AtlasTexture.h>
 
 using namespace std;
+using namespace boost::filesystem;
 
 class OpenTP {
 
@@ -35,7 +37,8 @@ private:
     int atlas_height;
     bool verbose;
     
-    list<AtlasTexture> *get_supported_images();
+    void delete_supported_images(list<AtlasTexture*>*);
+    list<AtlasTexture*> *get_supported_images();
     
 };
 

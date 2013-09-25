@@ -25,7 +25,7 @@ int main(int argc, char **argv) {
     tp->set_atlas_size(atlas_size_width, atlas_size_height);
     tp->set_verbose(verbose);
     
-    
+    tp->generate_atlas();
     
     delete tp;
     

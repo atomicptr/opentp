@@ -43,13 +43,48 @@ void OpenTP::set_verbose(bool) {
     this->verbose = true;
 }
 
-void OpenTP::generate_atlas() {
+void OpenTP::delete_supported_images(list<AtlasTexture*>* supported_images) {
+    for(AtlasTexture* ar : *supported_images) {
+        delete ar;
+    }
     
+    delete supported_images;
 }
 
-list<AtlasTexture>* OpenTP::get_supported_images() {
-    list<AtlasTexture> *supported_images = new list<AtlasTexture>;
+void OpenTP::generate_atlas() {
+    list<AtlasTexture*> *sp = this->get_supported_images();
     
+    cout << sp->size() << endl;
     
-    return NULL;
+    // delete supported images
+    this->delete_supported_images(sp);
+}
+
+list<AtlasTexture*>* OpenTP::get_supported_images() {
+    list<AtlasTexture*> *supported_images = new list<AtlasTexture*>;
+    
+    path cwd = current_path();
+    string _path = "";
+    
+    if(exists(cwd / this->texture_directory)) {
+        _path = (cwd / this->texture_directory).string();
+    } else if(exists(this->texture_directory)) {
+        _path = path(this->texture_directory).string();
+    } else {
+        throw "Error: Unknown path: " + this->texture_directory;
+    }
+    
+    directory_iterator iterator(_path);
+    
+    for(; iterator != boost::filesystem::directory_iterator(); ++iterator) {
+        string filename = iterator->path().filename().string();
+        
+        // TODO: get image size
+        int width = 0;
+        int height = 0;
+        
+        supported_images->push_back(new AtlasTexture(filename, width, height));
+    }
+    
+    return supported_images;
 }
