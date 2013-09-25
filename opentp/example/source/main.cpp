@@ -23,7 +23,7 @@ int main(int argc, char **argv) {
     tp->set_atlas_output_format(atlas_output_format);
     tp->set_atlas_data_format(atlas_data_format);
     tp->set_atlas_size(atlas_size_width, atlas_size_height);
-    tp->set_verbose(true);
+    tp->set_verbose(verbose);
     
     
     

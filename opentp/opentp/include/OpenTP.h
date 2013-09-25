@@ -3,6 +3,9 @@
 
 #include <iostream>
 #include <string>
+#include <list>
+
+#include <AtlasTexture.h>
 
 using namespace std;
 
@@ -10,6 +13,7 @@ class OpenTP {
 
 public:
 	OpenTP();
+    ~OpenTP();
     
     void set_texture_directory(string);
     void set_atlas_destination_directory(string);
@@ -30,6 +34,8 @@ private:
     int atlas_width;
     int atlas_height;
     bool verbose;
+    
+    list<AtlasTexture> *get_supported_images();
     
 };
 

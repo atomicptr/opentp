@@ -11,6 +11,9 @@ OpenTP::OpenTP() {
     this->atlas_height = 512;
 }
 
+OpenTP::~OpenTP() {
+}
+
 void OpenTP::set_texture_directory(string texture_directory) {
     this->texture_directory = texture_directory;
 }
@@ -42,4 +45,11 @@ void OpenTP::set_verbose(bool) {
 
 void OpenTP::generate_atlas() {
     
+}
+
+list<AtlasTexture>* OpenTP::get_supported_images() {
+    list<AtlasTexture> *supported_images = new list<AtlasTexture>;
+    
+    
+    return NULL;
 }
