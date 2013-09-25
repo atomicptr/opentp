@@ -1,5 +1,5 @@
 #include <iostream>
-#include <opentp/include/OpenTP.h>
+#include <OpenTP.h>
 
 using namespace std;
 

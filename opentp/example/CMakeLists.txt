@@ -4,7 +4,8 @@ include_directories("../opentp/include")
 
 file(GLOB OPENTP_EXAMPLE_SOURCES "source/*.cpp")
 
-add_executable(opentp-example ${OPENTP_EXAMPLE_SOURCES})
+add_executable(opentp-example ${OPENTP_EXAMPLE_SOURCES} ${OPENTP_HEADERS})
+
 target_link_libraries(opentp-example opentp)
 add_dependencies(opentp-example opentp)
 
