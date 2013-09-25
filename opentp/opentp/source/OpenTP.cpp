@@ -1,5 +1,8 @@
-#include <opentp/OpenTP.h>
+#include "OpenTP.h"
 
-OpenTP::OpenTP() {
-    // meep
+void OpenTP::test() {
+    int i = 2 + 2;
+
+    cout << i << endl;
+    // just a test
 }
