@@ -3,15 +3,16 @@ project(opentp)
 # find and link boost
 set(Boost_USE_STATIC_LIBS ON)
 find_package(Boost REQUIRED COMPONENTS system filesystem)
+find_package(X11)
 
 link_directories(${Boost_LIBRARY_DIRS})
 include_directories(${Boost_INCLUDE_DIR})
 
-# find and link DevIL
-find_package(DevIL REQUIRED)
+# find and link CImg
 
-link_directories(${IL_LIBRARY})
-include_directories(${IL_INCLUDE_DIR})
+include_directories("lib/cimg")
+
+file(GLOB_RECURSE CIMG_SOURCES "lib/cimg/*.h")
 
 # opentp
 
@@ -33,13 +34,13 @@ file(GLOB OPENTP
 source_group("opentp" FILES ${OPENTP})
 
 IF(BUILD_SHARED_LIBS)
-    add_library(opentp SHARED ${OPENTP_HEADERS} ${OPENTP_SOURCES})
+    add_library(opentp SHARED ${OPENTP_HEADERS} ${OPENTP_SOURCES} ${CIMG_SOURCES})
 ELSE(BUILD_SHARED_LIB)
     IF(BUILD_STATIC_LIBS)
-	add_library(opentp STATIC ${OPENTP_HEADERS} ${OPENTP_SOURCES})
+	add_library(opentp STATIC ${OPENTP_HEADERS} ${OPENTP_SOURCES} ${CIMG_SOURCES})
     ELSE(BUILD_STATIC_LIBS)
-	add_library(opentp ${OPENTP_HEADERS} ${OPENTP_SOURCES})
+	add_library(opentp ${OPENTP_HEADERS} ${OPENTP_SOURCES} ${CIMG_SOURCES})
     ENDIF(BUILD_STATIC_LIBS)
 ENDIF(BUILD_SHARED_LIBS)
 
-target_link_libraries(opentp ${Boost_LIBRARIES} ${IL_LIBRARY})
+target_link_libraries(opentp ${Boost_LIBRARIES} ${X11_LIBRARIES})

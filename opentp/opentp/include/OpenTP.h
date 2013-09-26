@@ -7,6 +7,7 @@
 #include <boost/filesystem.hpp>
 
 #include <AtlasTexture.h>
+#include <Image.h>
 
 using namespace std;
 using namespace boost::filesystem;

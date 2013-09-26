@@ -79,11 +79,18 @@ list<AtlasTexture*>* OpenTP::get_supported_images() {
     for(; iterator != boost::filesystem::directory_iterator(); ++iterator) {
         string filename = iterator->path().filename().string();
         
-        // TODO: get image size
-        int width = 0;
-        int height = 0;
+        path _tmp_path = path(_path);
+        
+        _tmp_path /= filename;
+        
+        Image *image = Image::from_file(_tmp_path.string());
+
+        int width = image->get_width();
+        int height = image->get_height();
         
         supported_images->push_back(new AtlasTexture(filename, width, height));
+        
+        delete image;
     }
     
     return supported_images;
