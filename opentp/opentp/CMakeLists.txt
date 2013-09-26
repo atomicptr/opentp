@@ -1,10 +1,19 @@
 project(opentp)
 
+# find and link boost
 set(Boost_USE_STATIC_LIBS ON)
 find_package(Boost REQUIRED COMPONENTS system filesystem)
 
 link_directories(${Boost_LIBRARY_DIRS})
 include_directories(${Boost_INCLUDE_DIR})
+
+# find and link DevIL
+find_package(DevIL REQUIRED)
+
+link_directories(${IL_LIBRARY})
+include_directories(${IL_INCLUDE_DIR})
+
+# opentp
 
 include_directories("include")
 
@@ -33,4 +42,4 @@ ELSE(BUILD_SHARED_LIB)
     ENDIF(BUILD_STATIC_LIBS)
 ENDIF(BUILD_SHARED_LIBS)
 
-target_link_libraries(opentp ${Boost_LIBRARIES})
+target_link_libraries(opentp ${Boost_LIBRARIES} ${IL_LIBRARY})

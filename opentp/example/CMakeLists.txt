@@ -1,9 +1,18 @@
 project(opentp-example)
 
+# find and link boost
 find_package(Boost REQUIRED COMPONENTS system filesystem)
 
 link_directories(${Boost_LIBRARY_DIRS})
 include_directories(${Boost_INCLUDE_DIR})
+
+# find and link DevIL
+find_package(DevIL REQUIRED)
+
+link_directories(${IL_LIBRARY})
+include_directories(${IL_INCLUDE_DIR})
+
+# link opentp
 
 include_directories("../opentp/include")
 
@@ -11,7 +20,7 @@ file(GLOB OPENTP_EXAMPLE_SOURCES "source/*.cpp")
 
 add_executable(opentp-example ${OPENTP_EXAMPLE_SOURCES})
 
-target_link_libraries(opentp-example opentp ${Boost_LIBRARIES})
+target_link_libraries(opentp-example opentp ${Boost_LIBRARIES} ${IL_LIBRARY})
 add_dependencies(opentp-example opentp)
 
 add_custom_command(
