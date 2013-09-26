@@ -12,10 +12,10 @@ public:
     AtlasTexture(string, int, int);
     ~AtlasTexture();
     
-    string get_name();
-    int get_width();
-    int get_height();
-    int get_square_pixels();
+    const string get_name() const;
+    const int get_width() const;
+    const int get_height() const;
+    const int get_square_pixels() const;
     
     //Image get_image();
 private:

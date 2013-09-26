@@ -11,18 +11,18 @@ AtlasTexture::~AtlasTexture() {
     cout << "Atlas Texture " << name << " died." << endl;
 }
 
-string AtlasTexture::get_name() {
+const string AtlasTexture::get_name() const {
     return name;
 }
 
-int AtlasTexture::get_width() {
+const int AtlasTexture::get_width() const {
     return width;
 }
 
-int AtlasTexture::get_height() {
+const int AtlasTexture::get_height() const {
     return height;
 }
 
-int AtlasTexture::get_square_pixels() {
+const int AtlasTexture::get_square_pixels() const {
     return square_pixels;
 }
