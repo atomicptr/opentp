@@ -13,4 +13,4 @@ endif(CMAKE_SYSTEM_NAME STREQUAL Linux)
 add_definitions(-Dcimg_use_png)
 
 add_subdirectory(opentp)
-add_subdirectory(example)
+add_subdirectory(opentp-tool)

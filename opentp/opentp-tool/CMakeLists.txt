@@ -1,4 +1,4 @@
-project(opentp-example)
+project(opentp-tool)
 
 # find and link boost
 find_package(Boost REQUIRED COMPONENTS system filesystem)
@@ -21,12 +21,12 @@ include_directories(${PNG_INCLUDE_DIR})
 
 include_directories("../opentp/include")
 
-file(GLOB OPENTP_EXAMPLE_SOURCES "source/*.cpp")
+file(GLOB OPENTP_TOOL_SOURCES "source/*.cpp")
 
-add_executable(opentp-example ${OPENTP_EXAMPLE_SOURCES})
+add_executable(opentp-tool ${OPENTP_TOOL_SOURCES})
 
-target_link_libraries(opentp-example opentp ${Boost_LIBRARIES} ${X11_LIBRARIES} ${PNG_LIBRARY})
-add_dependencies(opentp-example opentp)
+target_link_libraries(opentp-tool opentp ${Boost_LIBRARIES} ${X11_LIBRARIES} ${PNG_LIBRARY})
+add_dependencies(opentp-tool opentp)
 
 add_custom_command(
     OUTPUT "${CMAKE_CURRENT_BINARY_DIR}/textures"
@@ -34,4 +34,4 @@ add_custom_command(
     DEPENDS "${CMAKE_CURRENT_SOURCE_DIR}/textures"
 )
 
-add_custom_target(opentp-example-textures ALL DEPENDS ${CMAKE_CURRENT_BINARY_DIR}/textures)
+add_custom_target(opentp-tool-textures ALL DEPENDS ${CMAKE_CURRENT_BINARY_DIR}/textures)
