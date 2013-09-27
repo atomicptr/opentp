@@ -52,14 +52,7 @@ void OpenTP::delete_list_with_images(list<AtlasTexture*>* supported_images) {
 }
 
 void OpenTP::generate_atlas() {
-    list<AtlasTexture*> *sp = this->get_supported_images();
-    
-    list<AtlasTexture*> *supported_images = new list<AtlasTexture*>;
-    
-    for(int i = 0; i < 5; i++) {
-        supported_images->push_back(sp->front());
-        sp->remove(sp->front());
-    }
+    list<AtlasTexture*> *supported_images = this->get_supported_images();
     
     cout << supported_images->size() << " valid images found." << endl;
     
@@ -86,16 +79,16 @@ void OpenTP::generate_atlas() {
         memset(matrix, false, atlas_matrix_size);
         
         // fill atlas image with textures
-        for(size_t y = 0; y < atlas_height; y++) {
+        for(int y = 0; y < atlas_height; y++) {
             
-            for(size_t x = 0; x < atlas_width; x++) {
+            for(int x = 0; x < atlas_width; x++) {
                 
                 // if current position is occupied, continue
                 if(this->get_matrix(matrix, x, y)) {
                     continue;
                 }
                 
-                // remove images which wouldn't fit anymore
+                // iterate through images
                 for(AtlasTexture *atlas_texture : *images) {
                     
                     // if image doesn't fit remove it and continue
@@ -202,9 +195,9 @@ void OpenTP::set_matrix(bool *matrix, int x, int y, bool value) const {
 }
 
 bool OpenTP::image_fits(bool *matrix, AtlasTexture *atlas_texture, int x, int y) const {
-    for(size_t local_y = 0; local_y < atlas_texture->get_height(); local_y++) {
-        for(size_t local_x = 0; local_x < atlas_texture->get_width(); local_x++) {
-            if(this->get_matrix(matrix, x, y)) {
+    for(int local_y = 0; local_y < atlas_texture->get_height(); local_y++) {
+        for(int local_x = 0; local_x < atlas_texture->get_width(); local_x++) {
+            if(this->get_matrix(matrix, x + local_x, y + local_y)) {
                 return false;
             }
         }
@@ -218,9 +211,9 @@ void OpenTP::paste_image_into_atlas(bool *matrix, Image *atlas_image, AtlasTextu
     
     atlas_image->paste(image, x, y);
     
-    for(size_t local_y = 0; local_y < image->get_height(); local_y++) {
-        for(size_t local_x = 0; local_x < image->get_width(); local_x++) {
-            this->set_matrix(matrix, x, y, true);
+    for(int local_y = 0; local_y < image->get_height(); local_y++) {
+        for(int local_x = 0; local_x < image->get_width(); local_x++) {
+            this->set_matrix(matrix, x + local_x, y + local_y, true);
         }
     }
 }
