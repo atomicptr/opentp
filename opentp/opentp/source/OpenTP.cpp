@@ -83,6 +83,7 @@ list<AtlasTexture*>* OpenTP::get_supported_images() {
         
         _tmp_path /= filename;
         
+        // TODO: improve this statement
         if(!(extension(_tmp_path) == ".png" || extension(_tmp_path) == ".jpg" || extension(_tmp_path) == ".gif")) {
             cout << "Unknown extension: " << extension(_tmp_path) << endl;
             continue;
@@ -93,7 +94,7 @@ list<AtlasTexture*>* OpenTP::get_supported_images() {
         int width = image->get_width();
         int height = image->get_height();
         
-        supported_images->push_back(new AtlasTexture(filename, width, height));
+        supported_images->push_back(new AtlasTexture(filename, _tmp_path, width, height));
         
         delete image;
     }
