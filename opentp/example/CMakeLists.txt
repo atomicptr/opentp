@@ -6,6 +6,12 @@ find_package(Boost REQUIRED COMPONENTS system filesystem)
 link_directories(${Boost_LIBRARY_DIRS})
 include_directories(${Boost_INCLUDE_DIR})
 
+# find X11
+find_package(X11 REQUIRED)
+
+link_directories(${X11_LIBRARIES})
+include_directories(${X11_INCLUDE_DIR})
+
 # link opentp
 
 include_directories("../opentp/include")
@@ -14,7 +20,7 @@ file(GLOB OPENTP_EXAMPLE_SOURCES "source/*.cpp")
 
 add_executable(opentp-example ${OPENTP_EXAMPLE_SOURCES})
 
-target_link_libraries(opentp-example opentp ${Boost_LIBRARIES})
+target_link_libraries(opentp-example opentp ${Boost_LIBRARIES} ${X11_LIBRARIES})
 add_dependencies(opentp-example opentp)
 
 add_custom_command(

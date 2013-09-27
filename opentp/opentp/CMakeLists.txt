@@ -3,10 +3,19 @@ project(opentp)
 # find and link boost
 set(Boost_USE_STATIC_LIBS ON)
 find_package(Boost REQUIRED COMPONENTS system filesystem)
-find_package(X11)
 
 link_directories(${Boost_LIBRARY_DIRS})
 include_directories(${Boost_INCLUDE_DIR})
+
+# find X11
+find_package(X11 REQUIRED)
+
+link_directories(${X11_LIBRARIES})
+include_directories(${X11_INCLUDE_DIR})
+
+if(NOT X11_FOUND)
+    message(FATAL_ERROR "Failed to find X11 which is required to build opentp")
+endif(NOT X11_FOUND)
 
 # find and link CImg
 
