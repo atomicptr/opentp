@@ -169,7 +169,10 @@ list<AtlasTexture*>* OpenTP::get_supported_images() {
         
         // TODO: improve this statement
         if(!(extension(_tmp_path) == ".png" || extension(_tmp_path) == ".jpg" || extension(_tmp_path) == ".gif")) {
-            cout << "Unknown extension: " << extension(_tmp_path) << endl;
+            if(verbose) {
+                cout << "Unknown extension: " << extension(_tmp_path) << endl;
+            }
+            
             continue;
         }
         
