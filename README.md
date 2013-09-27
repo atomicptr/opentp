@@ -25,7 +25,7 @@ In this small guide i'll show you how to compile OpenTP on Ubuntu and Fedora Lin
 
 **2.b Fedora)** This is how you install the dependencies on Fedora:
 
-	sudo yum install coming-soon
+	sudo yum install cmake boost* libX11-devel libpng* ImageMagick* GraphicsMagick*
 	
 **3)** Now navigate to your *"opentp"* directory (the one you've downloaded in the first step)
 
