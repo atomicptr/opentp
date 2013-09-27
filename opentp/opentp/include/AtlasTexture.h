@@ -22,7 +22,7 @@ public:
     const int get_height() const;
     const int get_square_pixels() const;
     
-    Image* get_image() const;
+    Image *get_image() const;
 private:
     const string name;
     const path filepath;

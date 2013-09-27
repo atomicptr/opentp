@@ -68,7 +68,15 @@ void OpenTP::generate_atlas() {
         // coppy supported_images (this list exists only for performance reasons)
         list<AtlasTexture*> *images = new list<AtlasTexture*>(*supported_images);
         
-        // TODO: create new image
+        // create new image
+        Image *atlas_image = Image::new_image(this->atlas_width, this->atlas_height);
+        
+        Image *i = supported_images->front()->get_image();
+        
+        //atlas_image->paste(supported_images->front()->get_image(), 0, 0);
+        //atlas_image->get_image()->save("opentp_test_image.png");
+        
+        break;
         
         // delete only the list (not the images!)
         delete images;
