@@ -54,7 +54,7 @@ void OpenTP::delete_list_with_images(list<AtlasTexture*>* supported_images) {
 void OpenTP::generate_atlas() {
     list<AtlasTexture*> *supported_images = this->get_supported_images();
     
-    cout << supported_images->size() << " valid images found." << endl;
+    cout << "OpenTP: " << supported_images->size() << " valid images found." << endl;
     
     // sort the list by square pixels
     supported_images->sort(compare_atlas_texture);
