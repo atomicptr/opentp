@@ -83,7 +83,8 @@ void OpenTP::generate_atlas() {
     
     while(supported_images->size() > 0) {
         // coppy supported_images (this list exists only for performance reasons)
-        list<AtlasTexture*> *images = new list<AtlasTexture*>(*supported_images);
+        vector<AtlasTexture*> images = vector<AtlasTexture*>(
+                supported_images->begin(), supported_images->end());
         
         // create new image
         Image *atlas_image = Image::new_image(this->atlas_width, this->atlas_height);
@@ -106,11 +107,18 @@ void OpenTP::generate_atlas() {
                 }
                 
                 // iterate through images
-                for(AtlasTexture *atlas_texture : *images) {
+                int images_size = images.size();
+                
+                for(int i = 0; i < images_size; i++) {
+                    AtlasTexture *atlas_texture = images[i];
+                    
+                    if(!atlas_texture) {
+                        continue;
+                    }
                     
                     // if image doesn't fit remove it and continue
                     if(y + atlas_texture->get_height() > atlas_height) {
-                        images->remove(atlas_texture);
+                        images[i] = NULL;
                         continue;
                     }
                     
@@ -127,7 +135,7 @@ void OpenTP::generate_atlas() {
                         
                         // remove image from supported_images and copied array
                         supported_images->remove(atlas_texture);
-                        images->remove(atlas_texture);
+                        images[i] = NULL;
                     }
                 }
                 
@@ -149,9 +157,6 @@ void OpenTP::generate_atlas() {
         
         // delete matrix
         delete [] matrix;
-        
-        // delete only the list (not the images!)
-        delete images;
         
         // time for the next atlas ;)
         atlas_counter++;
