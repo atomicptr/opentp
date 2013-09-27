@@ -21,11 +21,15 @@ coming soon...
 
 	git clone https://github.com/Kasoki/opentp.git
 
-**2)** Now we'll install *(nearly)* all dependencies:
+**2.a brew)** Now we'll install *(nearly)* all dependencies via homebrew :
 
 	brew install cmake boost libpng imagemagick graphicsmagick
-	
-**2.a)** If you're not using [Homebrew](http://brew.sh/) i'd recommend to do so (except you're using MacPorts or Flink, then you should able to install these packages yourself).
+
+**2.b MacPorts)** This is how you should be able to install the packages with MacPorts (not tested though)
+
+	sudo port install cmake boost libpng ImageMagick GraphicsMagick
+
+**2.c other)** If you're not using [Homebrew](http://brew.sh/), MacPorts, Flink or any other packet manager out there, i'd recommend you to do so. (If you ask me… **use Homebrew** :P)
 
 **3)** The **last dependency** is [XQuartz](http://xquartz.macosforge.org), which you will need to install yourself.
 
@@ -56,6 +60,10 @@ This will create a makefile for OpenTP
 Now there is a **OpenTP.xcodeproj** file in the current directory.
 
 ### Windows
+
+coming soon...
+
+## How to use OpenTP with *INSERT_LIBRARY_NAME_HERE*
 
 coming soon...
 
