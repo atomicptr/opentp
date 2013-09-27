@@ -17,15 +17,18 @@ find_package(PNG REQUIRED)
 
 include_directories(${PNG_INCLUDE_DIR})
 
-# link opentp
+# find Threads
+find_package(Threads)
 
+# link opentp
+include_directories("../opentp/libs/cimg")
 include_directories("../opentp/include")
 
 file(GLOB OPENTP_TOOL_SOURCES "source/*.cpp")
 
 add_executable(opentp-tool ${OPENTP_TOOL_SOURCES})
 
-target_link_libraries(opentp-tool opentp ${Boost_LIBRARIES} ${X11_LIBRARIES} ${PNG_LIBRARY})
+target_link_libraries(opentp-tool opentp ${Boost_LIBRARIES} ${X11_LIBRARIES} ${PNG_LIBRARY} ${CMAKE_THREAD_LIBS_INIT})
 add_dependencies(opentp-tool opentp)
 
 add_custom_command(
