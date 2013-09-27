@@ -3,6 +3,7 @@
 
 #include <iostream>
 #include <string>
+#include <sstream>
 #include <list>
 #include <algorithm>
 #include <boost/filesystem.hpp>
@@ -41,6 +42,11 @@ private:
     
     void delete_list_with_images(list<AtlasTexture*>*);
     list<AtlasTexture*> *get_supported_images();
+    
+    bool get_matrix(bool*, int, int) const;
+    void set_matrix(bool*, int, int, bool) const;
+    bool image_fits(bool*, AtlasTexture*, int, int) const;
+    void paste_image_into_atlas(bool*, Image*, AtlasTexture*, int, int) const;
     
 };
 

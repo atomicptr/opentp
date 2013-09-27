@@ -24,6 +24,14 @@ void Image::paste(Image *other, int x, int y) {
     this->image->draw_image(x, y, 0, 0, *other->get_image(), 1);
 }
 
+void Image::save(path filepath, path atlas_dest_dir) const {
+    if(!exists(atlas_dest_dir)) {
+        create_directories(atlas_dest_dir);
+    }
+    
+    this->image->save(filepath.string().c_str());
+}
+
 const int Image::get_width() const {
     return this->image->width();
 }

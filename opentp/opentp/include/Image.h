@@ -3,10 +3,12 @@
 
 #include <iostream>
 #include <string>
+#include <boost/filesystem.hpp>
 #include <CImg.h>
 
 using namespace std;
 using namespace cimg_library;
+using namespace boost::filesystem;
 
 class Image {
     
@@ -17,6 +19,7 @@ public:
     static Image* from_file(string);
     
     void paste(Image*, int, int);
+    void save(path, path) const;
     
     const int get_width() const;
     const int get_height() const;

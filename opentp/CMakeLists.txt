@@ -5,6 +5,8 @@ set(Boost_USE_STATIC_LIBS ON)
 
 if(CMAKE_SYSTEM_NAME STREQUAL Linux)
     add_definitions(-std=c++0x)
+else(NOT CMAKE_SYSTEM_NAME STREQUAL Linux)
+    add_definitions(-std=c++11)
 endif(CMAKE_SYSTEM_NAME STREQUAL Linux)
 
 # add definition for CImg to use libPNG
