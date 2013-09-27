@@ -8,7 +8,6 @@ AtlasTexture::AtlasTexture(string name, int width, int height) :
 }
 
 AtlasTexture::~AtlasTexture() {
-    cout << "Atlas Texture " << name << " died." << endl;
 }
 
 const string AtlasTexture::get_name() const {
