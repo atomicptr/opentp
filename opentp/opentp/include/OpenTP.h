@@ -27,6 +27,11 @@ public:
     void set_atlas_data_format(string);
     void set_atlas_size(int, int);
     void set_verbose(bool);
+    void set_imagemagick_path(string) const;
+    void set_graphicsmagick_path(string) const;
+    
+    string get_imagemagick_path() const;
+    string get_graphicsmagick_path() const;
     
     void generate_atlas();
 

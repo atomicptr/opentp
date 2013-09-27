@@ -43,6 +43,23 @@ void OpenTP::set_verbose(bool) {
     this->verbose = true;
 }
 
+void OpenTP::set_imagemagick_path(string convert_path) const {
+    cimg::imagemagick_path(convert_path.c_str());
+}
+
+void OpenTP::set_graphicsmagick_path(string gm_path) const {
+    cimg::graphicsmagick_path(gm_path.c_str());
+}
+
+string OpenTP::get_imagemagick_path() const {
+    return cimg::imagemagick_path();
+}
+
+string OpenTP::get_graphicsmagick_path() const {
+    return cimg::graphicsmagick_path();
+}
+
+
 void OpenTP::delete_list_with_images(list<AtlasTexture*>* supported_images) {
     for(AtlasTexture* ar : *supported_images) {
         delete ar;
@@ -155,7 +172,7 @@ list<AtlasTexture*>* OpenTP::get_supported_images() {
     } else if(exists(this->texture_directory)) {
         _path = path(this->texture_directory).string();
     } else {
-        throw "Error: Unknown path: " + this->texture_directory;
+        cerr << "Error: Unknown path: " << this->texture_directory << endl;
     }
     
     directory_iterator iterator(_path);

@@ -15,6 +15,9 @@ int main(int argc, char **argv) {
     const int atlas_size_height = 512;
     const bool verbose = true;
     
+    const string imagemagick_path = "/usr/bin/convert";
+    const string graphicsmagick_path = "/usr/bin/gm";
+    
     OpenTP *tp = new OpenTP;
     
     tp->set_texture_directory(texture_directory);
@@ -24,6 +27,9 @@ int main(int argc, char **argv) {
     tp->set_atlas_data_format(atlas_data_format);
     tp->set_atlas_size(atlas_size_width, atlas_size_height);
     tp->set_verbose(verbose);
+    
+    tp->set_imagemagick_path(imagemagick_path);
+    tp->set_graphicsmagick_path(graphicsmagick_path);
     
     tp->generate_atlas();
     
