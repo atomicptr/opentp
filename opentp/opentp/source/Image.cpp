@@ -8,6 +8,10 @@ Image::~Image() {
     delete image;
 }
 
+Image* Image::new_image(int width, int height) {
+    return NULL;
+}
+
 Image* Image::from_file(string path) {
     CImg<unsigned char> *image = new CImg<unsigned char>(path.c_str());
     

@@ -13,6 +13,7 @@ class Image {
 public:
     ~Image();
     
+    static Image* new_image(int, int);
     static Image* from_file(string);
     
     const int get_width() const;

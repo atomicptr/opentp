@@ -43,7 +43,7 @@ void OpenTP::set_verbose(bool) {
     this->verbose = true;
 }
 
-void OpenTP::delete_supported_images(list<AtlasTexture*>* supported_images) {
+void OpenTP::delete_list_with_images(list<AtlasTexture*>* supported_images) {
     for(AtlasTexture* ar : *supported_images) {
         delete ar;
     }
@@ -52,12 +52,30 @@ void OpenTP::delete_supported_images(list<AtlasTexture*>* supported_images) {
 }
 
 void OpenTP::generate_atlas() {
-    list<AtlasTexture*> *sp = this->get_supported_images();
+    list<AtlasTexture*> *supported_images = this->get_supported_images();
     
-    cout << sp->size() << endl;
+    cout << supported_images->size() << " valid images found." << endl;
+    
+    // sort the list by square pixels
+    supported_images->sort(compare_atlas_texture);
+    
+    // reverse the list so that the biggest element comes first
+    supported_images->reverse();
+    
+    unsigned int atlas_counter = 0;
+    
+    while(supported_images->size() > 0) {
+        // coppy supported_images (this list exists only for performance reasons)
+        list<AtlasTexture*> *images = new list<AtlasTexture*>(*supported_images);
+        
+        // TODO: create new image
+        
+        // delete only the list (not the images!)
+        delete images;
+    }
     
     // delete supported images
-    this->delete_supported_images(sp);
+    this->delete_list_with_images(supported_images);
 }
 
 list<AtlasTexture*>* OpenTP::get_supported_images() {

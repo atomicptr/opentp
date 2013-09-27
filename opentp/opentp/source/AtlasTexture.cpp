@@ -34,3 +34,7 @@ const int AtlasTexture::get_square_pixels() const {
 Image* AtlasTexture::get_image() const {
     return Image::from_file(this->filepath.string());
 }
+
+bool compare_atlas_texture(AtlasTexture *first, AtlasTexture *second) {
+    return (first->get_square_pixels() < second->get_square_pixels());
+}

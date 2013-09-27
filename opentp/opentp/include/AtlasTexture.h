@@ -32,4 +32,6 @@ private:
     
 };
 
+bool compare_atlas_texture(AtlasTexture*, AtlasTexture*);
+
 #endif /* defined(__OpenTP__AtlasTexture__) */

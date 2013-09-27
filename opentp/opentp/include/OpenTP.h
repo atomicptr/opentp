@@ -4,6 +4,7 @@
 #include <iostream>
 #include <string>
 #include <list>
+#include <algorithm>
 #include <boost/filesystem.hpp>
 
 #include <AtlasTexture.h>
@@ -38,7 +39,7 @@ private:
     int atlas_height;
     bool verbose;
     
-    void delete_supported_images(list<AtlasTexture*>*);
+    void delete_list_with_images(list<AtlasTexture*>*);
     list<AtlasTexture*> *get_supported_images();
     
 };
