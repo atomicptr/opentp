@@ -71,10 +71,8 @@ void OpenTP::generate_atlas() {
         // create new image
         Image *atlas_image = Image::new_image(this->atlas_width, this->atlas_height);
         
-        Image *i = supported_images->front()->get_image();
-        
-        //atlas_image->paste(supported_images->front()->get_image(), 0, 0);
-        //atlas_image->get_image()->save("opentp_test_image.png");
+        atlas_image->paste(supported_images->front()->get_image(), 0, 0);
+        atlas_image->get_image()->save("opentp_test_image.png");
         
         break;
         

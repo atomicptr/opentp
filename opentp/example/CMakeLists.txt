@@ -12,6 +12,11 @@ find_package(X11 REQUIRED)
 link_directories(${X11_LIBRARIES})
 include_directories(${X11_INCLUDE_DIR})
 
+# find libPNG
+find_package(PNG REQUIRED)
+
+include_directories(${PNG_INCLUDE_DIR})
+
 # link opentp
 
 include_directories("../opentp/include")
@@ -20,7 +25,7 @@ file(GLOB OPENTP_EXAMPLE_SOURCES "source/*.cpp")
 
 add_executable(opentp-example ${OPENTP_EXAMPLE_SOURCES})
 
-target_link_libraries(opentp-example opentp ${Boost_LIBRARIES} ${X11_LIBRARIES})
+target_link_libraries(opentp-example opentp ${Boost_LIBRARIES} ${X11_LIBRARIES} ${PNG_LIBRARY})
 add_dependencies(opentp-example opentp)
 
 add_custom_command(

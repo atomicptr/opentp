@@ -20,6 +20,10 @@ Image* Image::from_file(string path) {
     return new Image(image);
 }
 
+void Image::paste(Image *other, int x, int y) {
+    this->image->draw_image(x, y, 0, 0, *other->get_image(), 1);
+}
+
 const int Image::get_width() const {
     return this->image->width();
 }
@@ -28,6 +32,6 @@ const int Image::get_height() const {
     return this->image->height();
 }
 
-void Image::paste(Image *other, int x, int y) {
-    this->image->draw_image(x, y, 0, 0, *other->get_image(), 1);
+const CImg<unsigned char> *Image::get_image() const {
+    return this->image;
 }

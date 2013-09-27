@@ -17,6 +17,11 @@ if(NOT X11_FOUND)
     message(FATAL_ERROR "Failed to find X11 which is required to build opentp")
 endif(NOT X11_FOUND)
 
+# find libPNG
+find_package(PNG REQUIRED)
+
+include_directories(${PNG_INCLUDE_DIR})
+
 # find and link CImg
 
 include_directories("lib/cimg")
@@ -52,4 +57,4 @@ ELSE(BUILD_SHARED_LIB)
     ENDIF(BUILD_STATIC_LIBS)
 ENDIF(BUILD_SHARED_LIBS)
 
-target_link_libraries(opentp ${Boost_LIBRARIES} ${X11_LIBRARIES})
+target_link_libraries(opentp ${Boost_LIBRARIES} ${X11_LIBRARIES} ${PNG_LIBRARY})

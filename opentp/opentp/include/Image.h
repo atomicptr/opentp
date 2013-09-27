@@ -20,7 +20,7 @@ public:
     
     const int get_width() const;
     const int get_height() const;
-    const CImg<unsigned char> *get_image();
+    const CImg<unsigned char> *get_image() const;
     
 private:
     Image();
