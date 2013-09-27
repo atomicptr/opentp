@@ -13,19 +13,47 @@ Here are some guides on how to compile OpenTP on your operating system.
 
 ### Linux
 
-coming soon...
-
-### Mac OS X
+In this small guide i'll show you how to compile OpenTP on Ubuntu and Fedora Linux. (Yes i know the're so much more distributions, but if you're one of the guys who are using something like ArchLinux or Gentoo chances are high that you won't even need my help -> so you probably won't even read this lovely crafted guide D: )
 
 **1)** First you need to clone this repository:
 
 	git clone https://github.com/Kasoki/opentp.git
 
-**2.a brew)** Now we'll install *(nearly)* all dependencies via homebrew :
+**2.a Ubuntu)** This is how you install the dependencies on Ubuntu:
+
+	sudo apt-get install build-essential cmake libboost-all-dev libpng* imagemagick graphicsmagick
+
+**2.b Fedora)** This is how you install the dependencies on Fedora:
+
+	sudo yum install coming-soon
+	
+**3)** Now navigate to your *"opentp"* directory (the one you've downloaded in the first step)
+
+	cd /path/to/opentp
+	
+**4)** Create a new directory and create a makefile for opentp:
+
+	mkdir build
+	cd build
+	cmake ../../opentp
+	
+There is now a makefile in your current directory.
+	
+
+
+### OS X
+
+In this small guide i'll show you how to compile OpenTP on OS X. (tested on OS X 10.8.5)
+
+**1)** First you need to clone this repository:
+
+	git clone https://github.com/Kasoki/opentp.git
+
+**2.a brew)** This is how you install the dependencies using Homebrew:
 
 	brew install cmake boost libpng imagemagick graphicsmagick
 
-**2.b MacPorts)** This is how you should be able to install the packages with MacPorts (not tested though)
+**2.b MacPorts)** This is how you install the dependencies using MacPorts (not tested).
 
 	sudo port install cmake boost libpng ImageMagick GraphicsMagick
 
@@ -39,7 +67,7 @@ coming soon...
 	sudo ln -s /usr/local/bin/convert
 	sudo ln -s /usr/local/bin/gm
 	
-**5)** Now navigate to the directory where the *"opentp"* folder is located (The directory you were in the first step!).
+**5)** Now navigate to your *"opentp"* directory (The one you've downloaded in the first step)
 
 	cd /path/to/opentp
 
