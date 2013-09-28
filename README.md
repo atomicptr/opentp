@@ -1,7 +1,7 @@
 OpenTP
 =======
 
-**Open** library for **t**exture **p**acking.
+**Open** tool for **t**exture **p**acking.
 
 ## How to install OpenTP
 
