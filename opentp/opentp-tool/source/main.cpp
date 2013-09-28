@@ -22,12 +22,45 @@
 
 #include <iostream>
 #include <string>
+#include <boost/program_options.hpp>
 
 #include <OpenTP.h>
 
 using namespace std;
+using namespace boost::program_options;
 
 int main(int argc, char **argv) {
+    options_description description("OpenTP help: Allowed options");
+    
+    description.add_options()
+        ("help", "shows this help message")
+        ("textures", value<string>(), "specify your texture directory")
+        ("output", value<string>(), "sepcify an alternative output directory")
+    ;
+    
+    variables_map map;
+    store(parse_command_line(argc, argv, description), map);
+    
+    notify(map);
+    
+    // if user gives a --textures argument
+    if(map.count("textures")) {
+        cout << "Texture directory: " << map["textures"].as<string>() << endl;
+        
+        if(map.count("output")) {
+            cout << "Output directory: " << map["output"].as<string>() << endl;
+        }
+        
+        return 1;
+    // if user gives a --output argument without --textures
+    } else if(map.count("output")) {
+        cout << "Texture directory: current-directory" << endl;
+        cout << "Output directory: " << map["output"].as<string>() << endl;
+    } else {
+        cout << description << endl;
+        return 1;
+    }
+    
     const string texture_directory = "textures";
     const string atlas_destination_directory = "atlas";
     const string atlas_name = "opentp_atlas";
