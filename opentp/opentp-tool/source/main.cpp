@@ -30,50 +30,116 @@ using namespace std;
 using namespace boost::program_options;
 
 int main(int argc, char **argv) {
-    options_description description("OpenTP help: Allowed options");
+    OpenTP tp;
     
-    description.add_options()
-        ("help", "shows this help message")
-        ("textures", value<string>(), "specify your texture directory")
-        ("output", value<string>(), "sepcify an alternative output directory")
+    string texture_directory = "textures";
+    string atlas_destination_directory = "atlas";
+    string atlas_name = "opentp_atlas";
+    string atlas_output_format = "png";
+    string atlas_data_format = "json";
+    int atlas_size_width = 512;
+    int atlas_size_height = 512;
+    bool verbose = false;
+    
+    const string imagemagick_path = "/usr/bin/convert";
+    const string graphicsmagick_path = "/usr/bin/gm";
+    
+    options_description description(
+        "OpenTP v" +
+        tp.get_version() +
+        "\n\n" +
+        "Usage: opentp-tool --textures TEXTURES_DIR --output OUTPUT_DIR");
+    
+    // generic options
+    options_description generic("Generic options");
+    
+    generic.add_options()
+        ("help,?", "this help message")
+        ("version,v", "print OpenTP version")
     ;
     
+    // atlas generation options
+    options_description atlas_generation("Atlas generation");
+    
+    atlas_generation.add_options()
+        ("verbose", "be verbose")
+        ("textures,t", value<string>(), "get textures from <directory>")
+        ("output,o", value<string>(), "place the output into <directory>")
+        ("width,w", value<int>(), "set atlas width (only width will set height to the same value)")
+        ("height,h", value<int>(), "set atlas height (only height will set width to the same value)")
+        ("name,n", value<string>(), "atlas name (eg. open_atlas_0.png)")
+    ;
+    
+    // configurations
+    options_description config("Configuration");
+    
+    config.add_options()
+        ("set-size", "set default altas size (eg. 512 512)")
+        ("set-output-format", "set default output format (eg. png, jpg)")
+        ("set-data-format", "set default data format (eg. json, xml)")
+    ;
+    
+    description.add(generic);
+    description.add(atlas_generation);
+    //description.add(config);
+    
     variables_map map;
-    store(parse_command_line(argc, argv, description), map);
+    
+    try {
+        store(parse_command_line(argc, argv, description), map);
+    } catch (const boost::program_options::error &e) {
+        cerr << "OpenTP: " << e.what() << endl;
+        return 1;
+    }
     
     notify(map);
     
+    if(map.count("version")) {
+        cout << "OpenTP v" << tp.get_version() << endl;
+        return 0;
+    }
+    
     // if user gives a --textures argument
     if(map.count("textures")) {
-        cout << "Texture directory: " << map["textures"].as<string>() << endl;
+        texture_directory = map["textures"].as<string>();
         
+        // and an output argument :D
         if(map.count("output")) {
-            cout << "Output directory: " << map["output"].as<string>() << endl;
+            atlas_destination_directory = map["output"].as<string>();
+        } else {
+            // output directory is at the same level as the texture directory
         }
-        
-        return 1;
     // if user gives a --output argument without --textures
     } else if(map.count("output")) {
-        cout << "Texture directory: current-directory" << endl;
-        cout << "Output directory: " << map["output"].as<string>() << endl;
+        //texture_directory = current_directory;
+        atlas_destination_directory = map["output"].as<string>();
     } else {
         cout << description << endl;
         return 1;
     }
     
-    const string texture_directory = "textures";
-    const string atlas_destination_directory = "atlas";
-    const string atlas_name = "opentp_atlas";
-    const string atlas_output_format = "png";
-    const string atlas_data_format = "json";
-    const int atlas_size_width = 512;
-    const int atlas_size_height = 512;
-    const bool verbose = true;
+    if(map.count("verbose")) {
+        verbose = true;
+    }
     
-    const string imagemagick_path = "/usr/bin/convert";
-    const string graphicsmagick_path = "/usr/bin/gm";
+    if(map.count("width")) {
+        atlas_size_width = map["width"].as<int>();
+        
+        if(map.count("height")) {
+            atlas_size_height = map["height"].as<int>();
+        } else {
+            // if no height defined, use width instead
+            atlas_size_height = map["width"].as<int>();
+        }
+    // no width? but height?
+    } else if(map.count("height")) {
+        atlas_size_width = map["height"].as<int>();
+        atlas_size_height = map["height"].as<int>();
+    }
     
-    OpenTP tp;
+    if(map.count("name")) {
+        atlas_name = map["name"].as<string>();
+    }
     
     tp.set_texture_directory(texture_directory);
     tp.set_atlas_destination_directory(atlas_destination_directory);
