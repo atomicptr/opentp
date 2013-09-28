@@ -23,6 +23,10 @@
 #ifndef OPENTP_H
 #define OPENTP_H
 
+#define OPENTP_MAJOR_VERSION 0
+#define OPENTP_MINOR_VERSION 0
+#define OPENTP_PATCH_VERSION 9
+
 #include <iostream>
 #include <string>
 #include <sstream>
@@ -41,6 +45,8 @@ class OpenTP {
 public:
 	OpenTP();
     ~OpenTP();
+    
+    const string get_version() const;
     
     void set_texture_directory(string);
     void set_atlas_destination_directory(string);

@@ -36,6 +36,14 @@ OpenTP::OpenTP() {
 OpenTP::~OpenTP() {
 }
 
+const string OpenTP::get_version() const {
+    stringstream ss;
+    
+    ss << OPENTP_MAJOR_VERSION << "." << OPENTP_MINOR_VERSION << "." << OPENTP_PATCH_VERSION;
+    
+    return ss.str();
+};
+
 void OpenTP::set_texture_directory(string texture_directory) {
     this->texture_directory = texture_directory;
 }
