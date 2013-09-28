@@ -1,7 +1,7 @@
 OpenTP
 =======
 
-Open library for texture packing.
+**Open** library for **t**exture **p**acking.
 
 ## How to install OpenTP
 
@@ -175,4 +175,4 @@ OpenTP is currently not open sourced (will be licenced under a open source licen
 
 ### 3rd party code
 
-OpenTP is using CImg an awesome image processing library intern. So that means you don't have to install it. I'm not involved in CImg so it's licenced under other terms than OpenTP so please read the licence agreements here: [opentp/opentp/lib/cimg](#need-to-change)
+OpenTP is using CImg an awesome image processing library intern. So that means you don't have to install it. I'm not involved in CImg so it's licenced under other terms than OpenTP so please read the licence agreements here: [Look in the licences directory](#need-to-change)
