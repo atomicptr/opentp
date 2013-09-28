@@ -253,6 +253,10 @@ list<AtlasTexture*>* OpenTP::get_supported_images() {
         
         supported_images->push_back(new AtlasTexture(filename, _tmp_path, width, height));
         
+        if(verbose) {
+            cout << "found texture: " << filename << " (" << width << "x" << height << ")" << endl;
+        }
+        
         delete image;
     }
     
