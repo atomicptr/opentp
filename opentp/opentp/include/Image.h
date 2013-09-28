@@ -4,7 +4,9 @@
 #include <iostream>
 #include <string>
 #include <boost/filesystem.hpp>
-#include <CImg.h>
+
+#define cimg_display 0
+#include "CImg.h"
 
 using namespace std;
 using namespace cimg_library;

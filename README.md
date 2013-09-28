@@ -26,6 +26,7 @@ In this small guide i'll show you how to compile OpenTP on Ubuntu and Fedora Lin
 **2.b Fedora)** This is how you install the dependencies on Fedora:
 
 	sudo yum install cmake boost* libX11-devel libpng* ImageMagick* GraphicsMagick*
+	sudo yum groupinstall "Development Tools" "Legacy Software Development"
 	
 **3)** Now navigate to your *"opentp"* directory (the one you've downloaded in the first step)
 
@@ -89,7 +90,44 @@ Now there is a **OpenTP.xcodeproj** file in the current directory.
 
 ### Windows
 
-coming soon...
+In this small guide i'll show how to compile OpenTP on Windows.
+
+**1)** You'll need to clone the Github repository, usually Windows users hate to user a terminal so i try to explain it without using a terminal…
+
+Start your favorite graphical git tool ([TortoiseGit](https://code.google.com/p/tortoisegit/) for example).
+
+Now clone the repository **"http://github.com/Kasoki/opentp.git"** like shown in the following screenshots:
+
+Open the right click context menu in your development directory:
+
+![git clone](http://abload.de/img/wincomp_1myry9.png)
+
+And now check out the URL i've mentioned above.
+
+![checkout repo](http://abload.de/img/wincomp_283qvq.png)
+
+**2)** CMake setup
+
+1. Download and install [CMake](http://www.cmake.org/). **Important: You need to select "_Add CMake to the system PATH for all users_" or - if you don't have the required permissions or whatever - at least "_Add CMake to the system PATH for current user_" during the installation, or you'll get in troubles later on at compilation.**
+1. Run CMake (cmake-gui).
+1. At _Where is the source code_ select the folder of OpenTP with the subfolders **opentp** and **opentp-tool**.
+1. At _Where to build the binaries_ select the folder where you want your binary tree (The project files). _NOTE: You shouldn't select the source folder or any subfolder of it, since it destroys the concept of splitting between binary/source tree and it may also won't work!_
+1. Press "Configure" and select your desired target platform (For instance Visual Studio 10 for a Visual Studio 2011 project). _NOTE: You can ignore the red list entries that may appear after this._
+1. Press "Generate".
+
+*(The cmake setup guide is kindly provided by [Robert Böhm](http://robertboehm.net))*
+
+**3)** Boost library setup
+
+1. Download the [Boost C++ libraries](http://boost.org)
+1. Decompress the downloaded archive. (You could use - for instance - [7-Zip](http://7-zip.org))
+1. Run "bootstrap.bat" of that folder. *NOTE: You probably have to execute this using the "Developer Command Prompt" (Included in Visual Studio)*
+1. Run the "b2.exe" of that folder. *NOTE: You probably have to execute this using the "Developer Command Prompt" (Included in Visual Studio)*
+1. Set the environment variable BOOST_ROOT to the path of your boost directory (That contains the "bootstrap.bat" file)
+
+*(The boost setup guide is kindly provided by [Robert Böhm](http://robertboehm.net))*
+
+**4)**
 
 ## How to use OpenTP with *INSERT_LIBRARY_NAME_HERE*
 
