@@ -23,11 +23,13 @@
 #include <iostream>
 #include <string>
 #include <boost/program_options.hpp>
+#include <boost/filesystem.hpp>
 
 #include <OpenTP.h>
 
 using namespace std;
 using namespace boost::program_options;
+using namespace boost::filesystem;
 
 int main(int argc, char **argv) {
     OpenTP tp;
@@ -108,10 +110,13 @@ int main(int argc, char **argv) {
             atlas_destination_directory = map["output"].as<string>();
         } else {
             // output directory is at the same level as the texture directory
+            path new_atlas_dir = path(texture_directory) / "../atlas";
+            
+            atlas_destination_directory = new_atlas_dir.string();
         }
     // if user gives a --output argument without --textures
     } else if(map.count("output")) {
-        //texture_directory = current_directory;
+        texture_directory = current_path().string();
         atlas_destination_directory = map["output"].as<string>();
     } else {
         cout << description << endl;
