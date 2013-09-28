@@ -6,11 +6,13 @@ find_package(Boost REQUIRED COMPONENTS system filesystem)
 link_directories(${Boost_LIBRARY_DIRS})
 include_directories(${Boost_INCLUDE_DIR})
 
-# find X11
-find_package(X11 REQUIRED)
+# if not windows, find X11
+if(NOT WIN32)
+    find_package(X11 REQUIRED)
 
-link_directories(${X11_LIBRARIES})
-include_directories(${X11_INCLUDE_DIR})
+    link_directories(${X11_LIBRARIES})
+    include_directories(${X11_INCLUDE_DIR})
+endif(NOT WIN32)
 
 # find libPNG
 find_package(PNG REQUIRED)
