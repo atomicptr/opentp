@@ -61,8 +61,8 @@ void OpenTP::set_atlas_size(int width, int height) {
     this->atlas_height = height;
 }
 
-void OpenTP::set_verbose(bool) {
-    this->verbose = true;
+void OpenTP::set_verbose(bool verbose) {
+    this->verbose = verbose;
 }
 
 void OpenTP::set_imagemagick_path(string convert_path) const {
@@ -106,8 +106,10 @@ void OpenTP::delete_list_with_images(list<AtlasTexture*>* supported_images) {
 void OpenTP::generate_atlas() {
     list<AtlasTexture*> *supported_images = this->get_supported_images();
     
-    cout << "OpenTP: " << supported_images->size() << " valid images found." << endl;
-    
+    if(verbose) {
+        cout << "OpenTP: " << supported_images->size() << " valid images found." << endl;
+    }
+        
     // sort the list by square pixels
     supported_images->sort(compare_atlas_texture);
     
@@ -196,6 +198,9 @@ void OpenTP::generate_atlas() {
         // time for the next atlas ;)
         atlas_counter++;
     }
+    
+    // atlas creation finished
+    cout << "OpenTP: Finished atlas creation after %d seconds." << endl;
     
     // delete supported images (list and all images)
     this->delete_list_with_images(supported_images);
