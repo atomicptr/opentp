@@ -146,14 +146,13 @@ And now check out the URL i've mentioned above.
 
 CMake should now be able to generate the project.
 
+*(The cmake setup guide is kindly provided by [Robert Böhm](http://robertboehm.net))*
+
 **8)** If you try to compile the project there may occur some problems:
 
-* Visual Studio can't find a "unistd.h" - [Here is a replacement for the <unistd.h>](https://github.com/Kasoki/opentp/blob/master/misc/unistd.h)
+* Visual Studio can't find a "unistd.h" - [Here is a replacement for the unistd.h](https://github.com/Kasoki/opentp/blob/master/misc/unistd.h)
 * libpng12.dll missing - [libpng12.dll](https://github.com/Kasoki/opentp/blob/master/misc/libpng12.dll)
 * zlib1.dll missing - [zlib1.dll](https://github.com/Kasoki/opentp/blob/master/misc/zlib1.dll)
-
-
-*(The cmake setup guide is kindly provided by [Robert Böhm](http://robertboehm.net))*
 
 ## How to use OpenTP from command line
 
@@ -178,4 +177,6 @@ OpenTP is licenced under the terms of the [MIT licence](http://opensource.org/li
 
 ### 3rd party code
 
-OpenTP is using CImg an awesome image processing library intern. So that means you don't have to install it. I'm not involved in CImg so it's licenced under other terms than OpenTP so please read the licence agreements here: [Look in the licences directory](#need-to-change)
+OpenTP is using CImg an awesome image processing library intern. So that means you don't have to install it. I'm not involved in CImg so it's licenced under other terms than OpenTP so please read the licence agreements [here](https://github.com/Kasoki/opentp/tree/master/licences)
+
+The [unistd.h](https://github.com/Kasoki/opentp/blob/master/misc/unistd.h) file is a modified version of this [StackOverflow answer](http://stackoverflow.com/a/826027). Author is [AShelly](http://stackoverflow.com/users/10396/ashelly).
