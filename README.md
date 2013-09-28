@@ -148,13 +148,16 @@ CMake should now be able to generate the project.
 
 **8)** If you try to compile the project there may occur some problems:
 
-* Visual Studio can't find a "unistd.h" - [Here is a replacement for the <unistd.h>](#)
-* libpng12.dll missing - [libpng12.dll](#)
-* libzlib1.dll missing - [libzlib1.dll](#)
+* Visual Studio can't find a "unistd.h" - [Here is a replacement for the <unistd.h>](https://github.com/Kasoki/opentp/blob/master/misc/unistd.h)
+* libpng12.dll missing - [libpng12.dll](https://github.com/Kasoki/opentp/blob/master/misc/libpng12.dll)
+* zlib1.dll missing - [zlib1.dll](https://github.com/Kasoki/opentp/blob/master/misc/zlib1.dll)
 
 
 *(The cmake setup guide is kindly provided by [Robert Böhm](http://robertboehm.net))*
 
+## How to use OpenTP from command line
+
+coming soon...
 
 ## How to use OpenTP with *INSERT_LIBRARY_NAME_HERE*
 
