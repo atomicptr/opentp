@@ -171,7 +171,7 @@ coming soon...
 
 ## Licence
 
-OpenTP is currently not open sourced (will be licenced under a open source licence soon…) at the moment you're allowed to download, try and play with OpenTP but not to distribute it in any way.
+OpenTP is licenced under the terms of the [MIT licence](http://opensource.org/licenses/MIT). Which means you're allowed to do whatever you want with this software (read the licence for specific things).
 
 ### 3rd party code
 
