@@ -61,8 +61,21 @@ string OpenTP::get_graphicsmagick_path() const {
 
 
 void OpenTP::delete_list_with_images(list<AtlasTexture*>* supported_images) {
-    for(AtlasTexture* ar : *supported_images) {
-        delete ar;
+    vector<AtlasTexture*> v = vector(AtlasTexture*>(
+	supported_images->begin(), supported_images->end());
+
+    int size = v.size();
+
+    for(int i = 0; i < size; i++) {
+        AtlasTexture *ar = v[i];
+
+	if(!ar) {
+	    continue;
+	}
+
+	delete ar;
+
+	v[i] = NULL;
     }
     
     delete supported_images;
