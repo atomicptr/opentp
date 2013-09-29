@@ -20,8 +20,8 @@
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 // THE SOFTWARE.
 
-#ifndef OPENTP_H
-#define OPENTP_H
+#ifndef OPENTP_HPP
+#define OPENTP_HPP
 
 #define OPENTP_MAJOR_VERSION 0
 #define OPENTP_MINOR_VERSION 0
@@ -34,8 +34,8 @@
 #include <algorithm>
 #include <boost/filesystem.hpp>
 
-#include <opentp/AtlasTexture.h>
-#include <opentp/Image.h>
+#include <opentp/AtlasTexture.hpp>
+#include <opentp/Image.hpp>
 
 using namespace std;
 using namespace boost::filesystem;

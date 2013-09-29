@@ -20,7 +20,7 @@
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 // THE SOFTWARE.
 
-#include <opentp/AtlasTexture.h>
+#include <opentp/AtlasTexture.hpp>
 
 AtlasTexture::AtlasTexture(string name, path filepath, int width, int height) :
     name(name),

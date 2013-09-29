@@ -20,43 +20,40 @@
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 // THE SOFTWARE.
 
-#ifndef __OPENTP__IMAGE_H__
-#define __OPENTP__IMAGE_H__
+#ifndef __OpenTP__AtlasTexture__
+#define __OpenTP__AtlasTexture__
 
 #include <iostream>
 #include <string>
 #include <boost/filesystem.hpp>
 
-#define cimg_display 0
-#include <libs/CImg.h>
+#include <opentp/Image.hpp>
 
 using namespace std;
-using namespace cimg_library;
 using namespace boost::filesystem;
 
-class Image {
+class AtlasTexture {
     
 public:
-    ~Image();
+    AtlasTexture(string, path, int, int);
+    ~AtlasTexture();
     
-    static Image* new_image(int, int);
-    static Image* from_file(string);
-    
-    void paste(Image*, int, int);
-    void save(path, path) const;
-    
+    const string get_name() const;
+    const path get_path() const;
     const int get_width() const;
     const int get_height() const;
-    const CImg<unsigned char> *get_image() const;
+    const int get_square_pixels() const;
     
+    Image *get_image() const;
 private:
-    Image();
-    Image(Image&);
-    Image(CImg<unsigned char>*);
-    const Image& operator=(Image&);
-    
-    CImg<unsigned char> *image;
+    const string name;
+    const path filepath;
+    const int width;
+    const int height;
+    const int square_pixels;
     
 };
 
-#endif
+bool compare_atlas_texture(AtlasTexture*, AtlasTexture*);
+
+#endif /* defined(__OpenTP__AtlasTexture__) */

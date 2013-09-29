@@ -20,7 +20,7 @@
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 // THE SOFTWARE.
 
-#include <opentp/Image.h>
+#include <opentp/Image.hpp>
 
 Image::Image(CImg<unsigned char> *image) {
     this->image = image;
