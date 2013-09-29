@@ -46,12 +46,6 @@ find_package(PNG REQUIRED)
 
 include_directories(${PNG_INCLUDE_DIR})
 
-# find and link CImg
-
-include_directories("lib/cimg")
-
-file(GLOB_RECURSE CIMG_SOURCES "lib/cimg/*.h")
-
 # opentp
 
 include_directories("include")
@@ -72,12 +66,12 @@ file(GLOB OPENTP
 source_group("opentp" FILES ${OPENTP})
 
 IF(BUILD_SHARED_LIBS)
-    add_library(opentp SHARED ${OPENTP_HEADERS} ${OPENTP_SOURCES} ${CIMG_SOURCES})
+    add_library(opentp SHARED ${OPENTP_HEADERS} ${OPENTP_SOURCES})
 ELSE(BUILD_SHARED_LIB)
     IF(BUILD_STATIC_LIBS)
-	add_library(opentp STATIC ${OPENTP_HEADERS} ${OPENTP_SOURCES} ${CIMG_SOURCES})
+	add_library(opentp STATIC ${OPENTP_HEADERS} ${OPENTP_SOURCES})
     ELSE(BUILD_STATIC_LIBS)
-	add_library(opentp ${OPENTP_HEADERS} ${OPENTP_SOURCES} ${CIMG_SOURCES})
+	add_library(opentp ${OPENTP_HEADERS} ${OPENTP_SOURCES})
     ENDIF(BUILD_STATIC_LIBS)
 ENDIF(BUILD_SHARED_LIBS)
 
