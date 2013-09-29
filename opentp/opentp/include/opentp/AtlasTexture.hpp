@@ -45,6 +45,8 @@ public:
     const int get_square_pixels() const;
     
     Image *get_image() const;
+    
+    static bool compare_atlas_texture(AtlasTexture*, AtlasTexture*);
 private:
     const string name;
     const path filepath;
@@ -53,7 +55,5 @@ private:
     const int square_pixels;
     
 };
-
-bool compare_atlas_texture(AtlasTexture*, AtlasTexture*);
 
 #endif /* defined(__OpenTP__AtlasTexture__) */

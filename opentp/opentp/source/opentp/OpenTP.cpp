@@ -119,7 +119,7 @@ void OpenTP::generate_atlas() {
     }
         
     // sort the list by square pixels
-    supported_images->sort(compare_atlas_texture);
+    supported_images->sort(AtlasTexture::compare_atlas_texture);
     
     // reverse the list so that the biggest element comes first
     supported_images->reverse();
