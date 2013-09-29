@@ -25,7 +25,7 @@
 
 #define OPENTP_MAJOR_VERSION 0
 #define OPENTP_MINOR_VERSION 0
-#define OPENTP_PATCH_VERSION 9
+#define OPENTP_PATCH_VERSION 10
 
 #include <iostream>
 #include <string>
