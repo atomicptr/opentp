@@ -35,10 +35,6 @@ if(NOT WIN32)
 
     link_directories(${X11_LIBRARIES})
     include_directories(${X11_INCLUDE_DIR})
-
-    if(NOT X11_FOUND)
-	message(FATAL_ERROR "Failed to find X11 which is required to build opentp")
-    endif(NOT X11_FOUND)
 endif(NOT WIN32)
 
 # find libPNG
@@ -56,11 +52,13 @@ file(GLOB_RECURSE OPENTP_SOURCES
 
 file(GLOB_RECURSE OPENTP_HEADERS
     "include/*.h"
+    "include/*.hpp"
 )
 
 file(GLOB OPENTP
     "source/*.cpp"
     "include/*.h"
+    "include/*.hpp"
 )
 
 source_group("opentp" FILES ${OPENTP})
