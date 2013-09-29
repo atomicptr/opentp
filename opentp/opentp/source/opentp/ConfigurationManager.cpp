@@ -93,6 +93,8 @@ void ConfigurationManager::save_file(string name, string output_format, string d
     
     XMLDocument doc;
     
+    XMLDeclaration *declaration = doc.NewDeclaration();
+    
     XMLElement *root_node = doc.NewElement("opentp-config");
     
     XMLElement *atlas_name = doc.NewElement("atlas-name");
@@ -132,6 +134,8 @@ void ConfigurationManager::save_file(string name, string output_format, string d
     root_node->LinkEndChild(atlas_height);
     root_node->LinkEndChild(imagemagick_path);
     root_node->LinkEndChild(graphicsmagick_path);
+    
+    doc.LinkEndChild(declaration);
     
     doc.LinkEndChild(root_node);
     
