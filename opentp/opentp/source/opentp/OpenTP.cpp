@@ -220,7 +220,7 @@ namespace opentp {
         atlas_data_set.save(atlas_data_set_path, data_format);
         
         // atlas creation finished
-        cout << "OpenTP: Finished atlas creation after %d seconds." << endl;
+        cout << "opentp: Finished atlas creation after %d seconds." << endl;
         
         // delete supported images (list and all images)
         this->delete_list_with_images(supported_images);
