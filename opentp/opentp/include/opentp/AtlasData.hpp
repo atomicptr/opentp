@@ -20,68 +20,45 @@
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 // THE SOFTWARE.
 
-#ifndef OPENTP_HPP
-#define OPENTP_HPP
-
-#define OPENTP_MAJOR_VERSION 0
-#define OPENTP_MINOR_VERSION 0
-#define OPENTP_PATCH_VERSION 10
+#ifndef __OPENTP__ATLAS_DATA_HPP__
+#define __OPENTP__ATLAS_DATA_HPP__
 
 #include <iostream>
 #include <string>
-#include <sstream>
-#include <list>
-#include <algorithm>
 #include <boost/filesystem.hpp>
 
-#include <opentp/AtlasData.hpp>
 #include <opentp/AtlasTexture.hpp>
-#include <opentp/Image.hpp>
+#include <libs/tinyxml2.h>
 
 using namespace std;
 using namespace boost::filesystem;
 
-class OpenTP {
+using namespace tinyxml2;
 
+class AtlasData {
+
+    struct AtlasDataItem {
+        int x;
+        int y;
+        int width;
+        int height;
+        string name;
+        string atlas_file;
+    };
+    
 public:
-	OpenTP();
-    ~OpenTP();
+    AtlasData();
+    ~AtlasData();
     
-    const string get_version() const;
+    void add(AtlasTexture*, string, int, int);
+    void save(path, string) const;
+    void dump() const;
     
-    void set_texture_directory(string);
-    void set_atlas_destination_directory(string);
-    void set_atlas_name(string);
-    void set_atlas_output_format(string);
-    void set_atlas_data_format(string);
-    void set_atlas_size(int, int);
-    void set_verbose(bool);
-    void set_imagemagick_path(string) const;
-    void set_graphicsmagick_path(string) const;
-    
-    string get_imagemagick_path() const;
-    string get_graphicsmagick_path() const;
-    
-    void generate_atlas();
-
 private:
-    string texture_directory;
-    string atlas_destination_directory;
-    string atlas_name;
-    string output_format;
-    string data_format;
-    int atlas_width;
-    int atlas_height;
-    bool verbose;
+    vector<AtlasDataItem*> items;
     
-    void delete_list_with_images(list<AtlasTexture*>*);
-    list<AtlasTexture*> *get_supported_images();
-    
-    bool get_matrix(bool*, int, int) const;
-    void set_matrix(bool*, int, int, bool) const;
-    bool image_fits(bool*, AtlasTexture*, int, int) const;
-    void paste_image_into_atlas(bool*, Image*, AtlasTexture*, int, int) const;
-    
+    void save_xml(path) const;
 };
 
 #endif
+

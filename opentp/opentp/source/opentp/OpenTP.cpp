@@ -126,6 +126,9 @@ void OpenTP::generate_atlas() {
     
     unsigned int atlas_counter = 0;
     
+    // create new AtlasData set
+    AtlasData atlas_data_set;
+    
     while(supported_images->size() > 0) {
         // coppy supported_images (this list exists only for performance reasons)
         vector<AtlasTexture*> images = vector<AtlasTexture*>(
@@ -140,6 +143,15 @@ void OpenTP::generate_atlas() {
         
         // set all elements to false
         memset(matrix, false, atlas_matrix_size);
+        
+        // create atlas_path
+        stringstream ss;
+        
+        ss << atlas_name << "_" << atlas_counter << "." << output_format;
+        
+        string atlas_file_name = ss.str();
+        
+        path atlas_path = path(atlas_destination_directory) / path(atlas_file_name);
         
         // fill atlas image with textures
         for(int y = 0; y < atlas_height; y++) {
@@ -176,7 +188,8 @@ void OpenTP::generate_atlas() {
                     if(this->image_fits(matrix, atlas_texture, x, y)) {
                         this->paste_image_into_atlas(matrix, atlas_image, atlas_texture, x, y);
                         
-                        // TODO: append image to atlas_data
+                        // add image to AtlasData set
+                        atlas_data_set.add(atlas_texture, atlas_file_name, x, y);
                         
                         // remove image from supported_images and copied array
                         supported_images->remove(atlas_texture);
@@ -188,15 +201,6 @@ void OpenTP::generate_atlas() {
             }
         }
         
-        // create atlas_path
-        stringstream ss;
-        
-        ss << atlas_name << "_" << atlas_counter << "." << output_format;
-        
-        string new_file_name = ss.str();
-        
-        path atlas_path = path(atlas_destination_directory) / path(new_file_name);
-        
         // save atlas to file system
         atlas_image->save(atlas_path, path(atlas_destination_directory));
         
@@ -206,6 +210,12 @@ void OpenTP::generate_atlas() {
         // time for the next atlas ;)
         atlas_counter++;
     }
+    
+    // create atlas_data_set_path
+    path atlas_data_set_path = path(atlas_destination_directory) / (atlas_name + "." + data_format);
+    
+    // save AtlasData set
+    atlas_data_set.save(atlas_data_set_path, data_format);
     
     // atlas creation finished
     cout << "OpenTP: Finished atlas creation after %d seconds." << endl;
