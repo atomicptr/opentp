@@ -34,6 +34,7 @@ using namespace boost::filesystem;
 int main(int argc, char **argv) {
     OpenTP tp;
     
+    // set default values
     string texture_directory = "textures";
     string atlas_destination_directory = "atlas";
     string atlas_name = "opentp_atlas";
@@ -46,6 +47,7 @@ int main(int argc, char **argv) {
     const string imagemagick_path = "/usr/bin/convert";
     const string graphicsmagick_path = "/usr/bin/gm";
     
+    // create program_options
     options_description description(
         "OpenTP v" +
         tp.get_version() +
@@ -69,7 +71,7 @@ int main(int argc, char **argv) {
         ("output,o", value<string>(), "place the output into <directory>")
         ("width,w", value<int>(), "set atlas width (only width will set height to the same value)")
         ("height,h", value<int>(), "set atlas height (only height will set width to the same value)")
-        ("name,n", value<string>(), "atlas name (eg. open_atlas_0.png)")
+        ("name,n", value<string>(), "atlas name (eg. 'open_atlas' for a file like this: open_atlas_0.png)")
     ;
     
     // configurations
@@ -87,6 +89,7 @@ int main(int argc, char **argv) {
     
     variables_map map;
     
+    // catch program_options related errors
     try {
         store(parse_command_line(argc, argv, description), map);
     } catch (const boost::program_options::error &e) {
@@ -96,6 +99,7 @@ int main(int argc, char **argv) {
     
     notify(map);
     
+    // if user wants to see the version, do nothing else
     if(map.count("version")) {
         cout << "OpenTP v" << tp.get_version() << endl;
         return 0;
@@ -142,6 +146,7 @@ int main(int argc, char **argv) {
         atlas_size_height = map["height"].as<int>();
     }
     
+    // if user specified an alternative name
     if(map.count("name")) {
         atlas_name = map["name"].as<string>();
     }
