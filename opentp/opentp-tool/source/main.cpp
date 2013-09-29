@@ -26,6 +26,7 @@
 #include <boost/filesystem.hpp>
 
 #include <opentp/OpenTP.hpp>
+#include <opentp/ConfigurationManager.hpp>
 
 using namespace std;
 using namespace boost::program_options;
@@ -33,19 +34,22 @@ using namespace boost::filesystem;
 
 int main(int argc, char **argv) {
     OpenTP tp;
+    ConfigurationManager config;
     
     // set default values
     string texture_directory = "textures";
     string atlas_destination_directory = "atlas";
-    string atlas_name = "opentp_atlas";
-    string atlas_output_format = "png";
-    string atlas_data_format = "json";
-    int atlas_size_width = 512;
-    int atlas_size_height = 512;
+    string atlas_name = config.get_atlas_name();
+    string atlas_output_format = config.get_atlas_output_format();
+    string atlas_data_format = config.get_atlas_data_format();
+    int atlas_size_width = config.get_atlas_size_width();
+    int atlas_size_height = config.get_atlas_size_height();
     bool verbose = false;
     
     const string imagemagick_path = "/usr/bin/convert";
     const string graphicsmagick_path = "/usr/bin/gm";
+    
+    bool changed_configs = false;
     
     // create program_options
     options_description description(
@@ -75,17 +79,21 @@ int main(int argc, char **argv) {
     ;
     
     // configurations
-    options_description config("Configuration");
+    options_description config_description("Configuration (this commands save default settings, not usable for on the fly changes)");
     
-    config.add_options()
-        ("set-size", "set default altas size (eg. 512 512)")
-        ("set-output-format", "set default output format (eg. png, jpg)")
-        ("set-data-format", "set default data format (eg. json, xml)")
+    config_description.add_options()
+        ("set-name", value<string>(), "set default altas name (eg. opentp_atlas)")
+        ("set-output-format", value<string>(), "set default output format (eg. png, jpg)")
+        ("set-data-format", value<string>(), "set default data format (eg. json, xml)")
+        ("set-width", value<int>(), "set default altas width (eg. 512)")
+        ("set-height", value<int>(), "set default altas height (eg. 512)")
+        ("set-convert-path", value<string>(), "set path to convert (eg. /usr/bin/convert)")
+        ("set-gm-path", value<string>(), "set path to gm (eg. /usr/bin/gm)")
     ;
     
     description.add(generic);
     description.add(atlas_generation);
-    //description.add(config);
+    description.add(config_description);
     
     variables_map map;
     
@@ -102,6 +110,81 @@ int main(int argc, char **argv) {
     // if user wants to see the version, do nothing else
     if(map.count("version")) {
         cout << "OpenTP v" << tp.get_version() << endl;
+        return 0;
+    }
+    
+    // save configurations, stop execution
+    if(map.count("set-name")) {
+        string val = map["set-name"].as<string>();
+        
+        config.set_atlas_name(val);
+        
+        cout << "opentp config: changed default name from '" << atlas_name << "' to '" << val << "'." << endl;
+        
+        changed_configs = true;
+    }
+    
+    if(map.count("set-output-format")) {
+        string val = map["set-output-format"].as<string>();
+        
+        config.set_atlas_output_format(val);
+        
+        cout << "opentp config: changed default output-format from '" << atlas_output_format << "' to '" << val << "'." << endl;
+        
+        changed_configs = true;
+    }
+    
+    if(map.count("set-data-format")) {
+        string val = map["set-data-format"].as<string>();
+        
+        config.set_atlas_data_format(val);
+        
+        cout << "opentp config: changed default data-format from '" << atlas_data_format << "' to '" << val << "'." << endl;
+        
+        changed_configs = true;
+    }
+    
+    if(map.count("set-width")) {
+        int val = map["set-width"].as<int>();
+        
+        config.set_atlas_size_width(val);
+        
+        cout << "opentp config: changed default width from '" << atlas_size_width << "' to '" << val << "'." << endl;
+        
+        changed_configs = true;
+    }
+    
+    if(map.count("set-height")) {
+        int val = map["set-height"].as<int>();
+        
+        config.set_atlas_size_height(val);
+        
+        cout << "opentp config: changed default height from '" << atlas_size_height << "' to '" << val << "'." << endl;
+        
+        changed_configs = true;
+    }
+    
+    if(map.count("set-convert-path")) {
+        string val = map["set-convert-path"].as<string>();
+        
+        config.set_imagemagick_path(val);
+        
+        cout << "opentp config: changed default ImageMagick path from '" << imagemagick_path << "' to '" << val << "'." << endl;
+        
+        changed_configs = true;
+    }
+    
+    if(map.count("set-gm-path")) {
+        string val = map["set-gm-path"].as<string>();
+        
+        config.set_graphicsmagick_path(val);
+        
+        cout << "opentp config: changed default GraphicsMagick from '" << graphicsmagick_path << "' to '" << val << "'." << endl;
+        
+        changed_configs = true;
+    }
+    
+    if(changed_configs) {
         return 0;
     }
     
