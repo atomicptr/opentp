@@ -184,5 +184,3 @@ Used libs and snippets:
 * [CImg](), an awesome image processing library
 * An [unistd.h replacement](http://stackoverflow.com/a/826027) for Windows from [AShelly](http://stackoverflow.com/users/10396/ashelly)
 * [TinyXML2](https://github.com/leethomason/tinyxml2), a great xml parser
-
-The [unistd.h](https://github.com/Kasoki/opentp/blob/master/misc/unistd.h) file is a modified version of this [StackOverflow answer]. Author is .
