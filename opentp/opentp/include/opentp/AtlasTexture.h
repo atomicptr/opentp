@@ -27,7 +27,7 @@
 #include <string>
 #include <boost/filesystem.hpp>
 
-#include "Image.h"
+#include <opentp/Image.h>
 
 using namespace std;
 using namespace boost::filesystem;

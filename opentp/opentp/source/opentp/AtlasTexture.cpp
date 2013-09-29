@@ -20,48 +20,43 @@
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 // THE SOFTWARE.
 
-#include "Image.h"
+#include <opentp/AtlasTexture.h>
 
-Image::Image(CImg<unsigned char> *image) {
-    this->image = image;
+AtlasTexture::AtlasTexture(string name, path filepath, int width, int height) :
+    name(name),
+    filepath(filepath),
+    width(width),
+    height(height),
+    square_pixels(width * height) {
 }
 
-Image::~Image() {
-    delete image;
+AtlasTexture::~AtlasTexture() {
 }
 
-Image* Image::new_image(int width, int height) {
-    CImg<unsigned char> *image = new CImg<unsigned char>(width, height, 1, 4);
-    
-    return new Image(image);
+const string AtlasTexture::get_name() const {
+    return name;
 }
 
-Image* Image::from_file(string path) {
-    CImg<unsigned char> *image = new CImg<unsigned char>(path.c_str());
-    
-    return new Image(image);
+const path AtlasTexture::get_path() const {
+    return filepath;
 }
 
-void Image::paste(Image *other, int x, int y) {
-    this->image->draw_image(x, y, 0, 0, *other->get_image(), 1);
+const int AtlasTexture::get_width() const {
+    return width;
 }
 
-void Image::save(path filepath, path atlas_dest_dir) const {
-    if(!exists(atlas_dest_dir)) {
-        create_directories(atlas_dest_dir);
-    }
-    
-    this->image->save(filepath.string().c_str());
+const int AtlasTexture::get_height() const {
+    return height;
 }
 
-const int Image::get_width() const {
-    return this->image->width();
+const int AtlasTexture::get_square_pixels() const {
+    return square_pixels;
 }
 
-const int Image::get_height() const {
-    return this->image->height();
+Image* AtlasTexture::get_image() const {
+    return Image::from_file(this->filepath.string());
 }
 
-const CImg<unsigned char> *Image::get_image() const {
-    return this->image;
+bool compare_atlas_texture(AtlasTexture *first, AtlasTexture *second) {
+    return (first->get_square_pixels() < second->get_square_pixels());
 }

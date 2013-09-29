@@ -25,7 +25,7 @@
 #include <boost/program_options.hpp>
 #include <boost/filesystem.hpp>
 
-#include <OpenTP.h>
+#include <opentp/OpenTP.h>
 
 using namespace std;
 using namespace boost::program_options;

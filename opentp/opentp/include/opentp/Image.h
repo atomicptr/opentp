@@ -28,7 +28,7 @@
 #include <boost/filesystem.hpp>
 
 #define cimg_display 0
-#include "CImg.h"
+#include <libs/CImg.h>
 
 using namespace std;
 using namespace cimg_library;

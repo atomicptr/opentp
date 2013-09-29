@@ -34,8 +34,8 @@
 #include <algorithm>
 #include <boost/filesystem.hpp>
 
-#include <AtlasTexture.h>
-#include <Image.h>
+#include <opentp/AtlasTexture.h>
+#include <opentp/Image.h>
 
 using namespace std;
 using namespace boost::filesystem;
