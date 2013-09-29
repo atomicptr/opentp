@@ -177,6 +177,12 @@ OpenTP is licenced under the terms of the [MIT licence](http://opensource.org/li
 
 ### 3rd party code
 
-OpenTP is using CImg an awesome image processing library intern. So that means you don't have to install it. I'm not involved in CImg so it's licenced under other terms than OpenTP so please read the licence agreements [here](https://github.com/Kasoki/opentp/tree/master/licences)
+OpenTP is using several 3rd party libs and snippets intern, so that you don't need to install them yourself. Some of them are modified, some not. You'll find the usage licences in the [licences directory](https://github.com/Kasoki/opentp/tree/master/licences).
 
-The [unistd.h](https://github.com/Kasoki/opentp/blob/master/misc/unistd.h) file is a modified version of this [StackOverflow answer](http://stackoverflow.com/a/826027). Author is [AShelly](http://stackoverflow.com/users/10396/ashelly).
+Used libs and snippets:
+
+* [CImg](), an awesome image processing library
+* An [unistd.h replacement](http://stackoverflow.com/a/826027) for Windows from [AShelly](http://stackoverflow.com/users/10396/ashelly)
+* [TinyXML2](https://github.com/leethomason/tinyxml2), a great xml parser
+
+The [unistd.h](https://github.com/Kasoki/opentp/blob/master/misc/unistd.h) file is a modified version of this [StackOverflow answer]. Author is .
