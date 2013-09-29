@@ -40,48 +40,52 @@
 
 using namespace std;
 using namespace boost::filesystem;
+using namespace opentp;
 
-class OpenTP {
+namespace opentp {
 
-public:
-	OpenTP();
-    ~OpenTP();
-    
-    const string get_version() const;
-    
-    void set_texture_directory(string);
-    void set_atlas_destination_directory(string);
-    void set_atlas_name(string);
-    void set_atlas_output_format(string);
-    void set_atlas_data_format(string);
-    void set_atlas_size(int, int);
-    void set_verbose(bool);
-    void set_imagemagick_path(string) const;
-    void set_graphicsmagick_path(string) const;
-    
-    string get_imagemagick_path() const;
-    string get_graphicsmagick_path() const;
-    
-    void generate_atlas();
+    class OpenTP {
 
-private:
-    string texture_directory;
-    string atlas_destination_directory;
-    string atlas_name;
-    string output_format;
-    string data_format;
-    int atlas_width;
-    int atlas_height;
-    bool verbose;
-    
-    void delete_list_with_images(list<AtlasTexture*>*);
-    list<AtlasTexture*> *get_supported_images();
-    
-    bool get_matrix(bool*, int, int) const;
-    void set_matrix(bool*, int, int, bool) const;
-    bool image_fits(bool*, AtlasTexture*, int, int) const;
-    void paste_image_into_atlas(bool*, Image*, AtlasTexture*, int, int) const;
-    
-};
+    public:
+        OpenTP();
+        ~OpenTP();
+        
+        const string get_version() const;
+        
+        void set_texture_directory(string);
+        void set_atlas_destination_directory(string);
+        void set_atlas_name(string);
+        void set_atlas_output_format(string);
+        void set_atlas_data_format(string);
+        void set_atlas_size(int, int);
+        void set_verbose(bool);
+        void set_imagemagick_path(string) const;
+        void set_graphicsmagick_path(string) const;
+        
+        string get_imagemagick_path() const;
+        string get_graphicsmagick_path() const;
+        
+        void generate_atlas();
+
+    private:
+        string texture_directory;
+        string atlas_destination_directory;
+        string atlas_name;
+        string output_format;
+        string data_format;
+        int atlas_width;
+        int atlas_height;
+        bool verbose;
+        
+        void delete_list_with_images(list<AtlasTexture*>*);
+        list<AtlasTexture*> *get_supported_images();
+        
+        bool get_matrix(bool*, int, int) const;
+        void set_matrix(bool*, int, int, bool) const;
+        bool image_fits(bool*, AtlasTexture*, int, int) const;
+        void paste_image_into_atlas(bool*, Image*, AtlasTexture*, int, int) const;
+        
+    };
+}
 
 #endif

@@ -22,92 +22,95 @@
 
 #include <opentp/AtlasData.hpp>
 
-AtlasData::AtlasData() {
-}
-
-AtlasData::~AtlasData() {
-    int size = items.size();
+namespace opentp {
     
-    for(int i = 0; i < size; i++) {
-        AtlasDataItem *item = items[i];
+    AtlasData::AtlasData() {
+    }
+
+    AtlasData::~AtlasData() {
+        int size = items.size();
         
-        if(!item) {
-            continue;
+        for(int i = 0; i < size; i++) {
+            AtlasDataItem *item = items[i];
+            
+            if(!item) {
+                continue;
+            }
+            
+            delete item;
+            
+            items[i] = NULL;
+        }
+    }
+
+    void AtlasData::add(AtlasTexture *atlas_texture, string atlas_file, int x, int y) {
+        AtlasDataItem *item = new AtlasDataItem;
+        
+        item->x = x;
+        item->y = y;
+        item->width = atlas_texture->get_width();
+        item->height = atlas_texture->get_height();
+        item->name = atlas_texture->get_name();
+        item->atlas_file = atlas_file;
+        
+        items.push_back(item);
+    }
+
+    void AtlasData::save(path filepath, string data_format) const {
+        if(data_format == "xml") {
+            this->save_xml(filepath);
+        } else {
+            cerr << "opentp Error: Unkown data_format: " << data_format << endl;
+        }
+    }
+
+    void AtlasData::save_xml(path filepath) const {
+        XMLDocument doc;
+        
+        XMLDeclaration *declaration = doc.NewDeclaration();
+        
+        XMLElement *root_node = doc.NewElement("texture-atlas");
+        
+        int size = items.size();
+        
+        for(int i = 0; i < size; i++) {
+            AtlasDataItem *item = items[i];
+            
+            // create new element
+            XMLElement *texture = doc.NewElement("texture");
+            
+            texture->SetAttribute("atlas_file", item->atlas_file.c_str());
+            texture->SetAttribute("name", item->name.c_str());
+            
+            XMLElement *position = doc.NewElement("position");
+            
+            position->SetAttribute("x", item->x);
+            position->SetAttribute("y", item->y);
+            position->SetAttribute("width", item->width);
+            position->SetAttribute("height", item->height);
+            
+            texture->LinkEndChild(position);
+            
+            root_node->LinkEndChild(texture);
         }
         
-        delete item;
+        doc.LinkEndChild(declaration);
         
-        items[i] = NULL;
+        doc.LinkEndChild(root_node);
+        
+        doc.SaveFile(filepath.c_str());
     }
-}
 
-void AtlasData::add(AtlasTexture *atlas_texture, string atlas_file, int x, int y) {
-    AtlasDataItem *item = new AtlasDataItem;
-    
-    item->x = x;
-    item->y = y;
-    item->width = atlas_texture->get_width();
-    item->height = atlas_texture->get_height();
-    item->name = atlas_texture->get_name();
-    item->atlas_file = atlas_file;
-    
-    items.push_back(item);
-}
-
-void AtlasData::save(path filepath, string data_format) const {
-    if(data_format == "xml") {
-        this->save_xml(filepath);
-    } else {
-        cerr << "opentp Error: Unkown data_format: " << data_format << endl;
-    }
-}
-
-void AtlasData::save_xml(path filepath) const {
-    XMLDocument doc;
-    
-    XMLDeclaration *declaration = doc.NewDeclaration();
-    
-    XMLElement *root_node = doc.NewElement("texture-atlas");
-    
-    int size = items.size();
-    
-    for(int i = 0; i < size; i++) {
-        AtlasDataItem *item = items[i];
+    void AtlasData::dump() const {
+        int size = items.size();
         
-        // create new element
-        XMLElement *texture = doc.NewElement("texture");
+        cout << "Dump " << size << " items:" << endl << endl;
         
-        texture->SetAttribute("atlas_file", item->atlas_file.c_str());
-        texture->SetAttribute("name", item->name.c_str());
-        
-        XMLElement *position = doc.NewElement("position");
-        
-        position->SetAttribute("x", item->x);
-        position->SetAttribute("y", item->y);
-        position->SetAttribute("width", item->width);
-        position->SetAttribute("height", item->height);
-        
-        texture->LinkEndChild(position);
-        
-        root_node->LinkEndChild(texture);
-    }
-    
-    doc.LinkEndChild(declaration);
-    
-    doc.LinkEndChild(root_node);
-    
-    doc.SaveFile(filepath.c_str());
-}
-
-void AtlasData::dump() const {
-    int size = items.size();
-    
-    cout << "Dump " << size << " items:" << endl << endl;
-    
-    for(int i = 0; i < size; i++) {
-        AtlasDataItem *item = items[i];
-        
-        cout << "Item: " << item->name << ", Atlas: " << item->atlas_file << ", Size: "
-            << item->width << "x" << item->height << ", Position: " << item->x << "x" << item->y << endl;
+        for(int i = 0; i < size; i++) {
+            AtlasDataItem *item = items[i];
+            
+            cout << "Item: " << item->name << ", Atlas: " << item->atlas_file << ", Size: "
+                << item->width << "x" << item->height << ", Position: " << item->x << "x" << item->y << endl;
+        }
     }
 }

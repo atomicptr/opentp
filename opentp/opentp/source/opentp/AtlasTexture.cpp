@@ -22,41 +22,44 @@
 
 #include <opentp/AtlasTexture.hpp>
 
-AtlasTexture::AtlasTexture(string name, path filepath, int width, int height) :
-    name(name),
-    filepath(filepath),
-    width(width),
-    height(height),
-    square_pixels(width * height) {
-}
+namespace opentp {
 
-AtlasTexture::~AtlasTexture() {
-}
+    AtlasTexture::AtlasTexture(string name, path filepath, int width, int height) :
+        name(name),
+        filepath(filepath),
+        width(width),
+        height(height),
+        square_pixels(width * height) {
+    }
 
-const string AtlasTexture::get_name() const {
-    return name;
-}
+    AtlasTexture::~AtlasTexture() {
+    }
 
-const path AtlasTexture::get_path() const {
-    return filepath;
-}
+    const string AtlasTexture::get_name() const {
+        return name;
+    }
 
-const int AtlasTexture::get_width() const {
-    return width;
-}
+    const path AtlasTexture::get_path() const {
+        return filepath;
+    }
 
-const int AtlasTexture::get_height() const {
-    return height;
-}
+    const int AtlasTexture::get_width() const {
+        return width;
+    }
 
-const int AtlasTexture::get_square_pixels() const {
-    return square_pixels;
-}
+    const int AtlasTexture::get_height() const {
+        return height;
+    }
 
-Image* AtlasTexture::get_image() const {
-    return Image::from_file(this->filepath.string());
-}
+    const int AtlasTexture::get_square_pixels() const {
+        return square_pixels;
+    }
 
-bool AtlasTexture::compare_atlas_texture(AtlasTexture *first, AtlasTexture *second) {
-    return (first->get_square_pixels() < second->get_square_pixels());
+    Image* AtlasTexture::get_image() const {
+        return Image::from_file(this->filepath.string());
+    }
+
+    bool AtlasTexture::compare_atlas_texture(AtlasTexture *first, AtlasTexture *second) {
+        return (first->get_square_pixels() < second->get_square_pixels());
+    }
 }

@@ -32,6 +32,8 @@ using namespace std;
 using namespace boost::program_options;
 using namespace boost::filesystem;
 
+using namespace opentp;
+
 int main(int argc, char **argv) {
     OpenTP tp;
     ConfigurationManager config;

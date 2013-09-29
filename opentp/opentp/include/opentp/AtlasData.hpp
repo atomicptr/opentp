@@ -34,31 +34,35 @@ using namespace std;
 using namespace boost::filesystem;
 
 using namespace tinyxml2;
+using namespace opentp;
 
-class AtlasData {
+namespace opentp {
+    
+    class AtlasData {
 
-    struct AtlasDataItem {
-        int x;
-        int y;
-        int width;
-        int height;
-        string name;
-        string atlas_file;
+        struct AtlasDataItem {
+            int x;
+            int y;
+            int width;
+            int height;
+            string name;
+            string atlas_file;
+        };
+    
+    public:
+        AtlasData();
+        ~AtlasData();
+    
+        void add(AtlasTexture*, string, int, int);
+        void save(path, string) const;
+        void dump() const;
+    
+    private:
+        vector<AtlasDataItem*> items;
+    
+        void save_xml(path) const;
     };
-    
-public:
-    AtlasData();
-    ~AtlasData();
-    
-    void add(AtlasTexture*, string, int, int);
-    void save(path, string) const;
-    void dump() const;
-    
-private:
-    vector<AtlasDataItem*> items;
-    
-    void save_xml(path) const;
-};
+}
 
 #endif
 

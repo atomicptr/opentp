@@ -34,29 +34,32 @@ using namespace std;
 using namespace cimg_library;
 using namespace boost::filesystem;
 
-class Image {
-    
-public:
-    ~Image();
-    
-    static Image* new_image(int, int);
-    static Image* from_file(string);
-    
-    void paste(Image*, int, int);
-    void save(path, path) const;
-    
-    const int get_width() const;
-    const int get_height() const;
-    const CImg<unsigned char> *get_image() const;
-    
-private:
-    Image();
-    Image(Image&);
-    Image(CImg<unsigned char>*);
-    const Image& operator=(Image&);
-    
-    CImg<unsigned char> *image;
-    
-};
+namespace opentp {
+
+    class Image {
+        
+    public:
+        ~Image();
+        
+        static Image* new_image(int, int);
+        static Image* from_file(string);
+        
+        void paste(Image*, int, int);
+        void save(path, path) const;
+        
+        const int get_width() const;
+        const int get_height() const;
+        const CImg<unsigned char> *get_image() const;
+        
+    private:
+        Image();
+        Image(Image&);
+        Image(CImg<unsigned char>*);
+        const Image& operator=(Image&);
+        
+        CImg<unsigned char> *image;
+        
+    };
+}
 
 #endif
