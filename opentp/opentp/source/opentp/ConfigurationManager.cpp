@@ -38,17 +38,14 @@ namespace opentp {
     }
 
     string ConfigurationManager::get_config_directory() {
-        path p = path(getenv("HOME"));
-        
     #if defined(__APPLE__)
+        path p = path(getenv("HOME"));
         p /= "Library/Application Support/opentp";
     #elif defined(__linux__)
+        path p = path(getenv("HOME"));
         p /= ".opentp";
     #elif defined(_WIN32)
-        // if env variable APPDATA returns something, use APPDATA
-        if(getenv("APPDATA")) {
-            p = path(getenv("APPDATA"));
-        }
+        path p = path(getenv("APPDATA"));
         
         p /= "opentp";
     #endif
