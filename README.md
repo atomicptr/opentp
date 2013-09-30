@@ -130,8 +130,6 @@ In this small guide i'll show how to compile OpenTP on Windows.
 1. Press "Configure" and select your desired target platform (For instance Visual Studio 10 for a Visual Studio 2011 project).
 1. Press "Generate".
 
-**Note:** If cmake can't find the libpng files you need to set the cmake path variables yourself: Set **PNG_LIBRARY** to *"C:\Program Files\GnuWin32\lib\libpng.lib"* and **PNG_INCLUDE_DIR** to *"C:\Program Files\GnuWin32\include\libpng12"*.
-
 CMake should now be able to generate the project.
 
 *(The cmake setup guide is kindly provided by [Robert Böhm](http://robertboehm.net))*
