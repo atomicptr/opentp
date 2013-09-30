@@ -98,19 +98,9 @@ Now there is a **OpenTP.xcodeproj** file in the current directory.
 
 In this small guide i'll show how to compile OpenTP on Windows.
 
-**1)** You'll need to clone the Github repository, usually Windows users hate to user a terminal so i try to explain it without using a terminal…
+**1)** You'll need to check out this Github repository with your favorite client.
 
-Start your favorite graphical git tool ([TortoiseGit](https://code.google.com/p/tortoisegit/) for example).
-
-Now clone the repository **"http://github.com/Kasoki/opentp.git"** like shown in the following screenshots:
-
-Open the right click context menu in your development directory:
-
-![git clone](http://abload.de/img/wincomp_1myry9.png)
-
-And now check out the URL i've mentioned above.
-
-![checkout repo](http://abload.de/img/wincomp_283qvq.png)
+	https://github.com/Kasoki/opentp.git
 
 **2)** CMake setup
 
@@ -128,13 +118,11 @@ And now check out the URL i've mentioned above.
 
 *(The boost setup guide is kindly provided by [Robert Böhm](http://robertboehm.net))*
 
-**4)** Download and install [zlib](http://gnuwin32.sourceforge.net/packages/zlib.htm)
+**4)** Download and compile [libpng](http://gnuwin32.sourceforge.net/packages/libpng.htm) yourself (You're a developer you can do this alone *hint* there is a Visual Studio project file in the "projects" directory)
 
-**5)** Download and install [libPNG](http://gnuwin32.sourceforge.net/packages/libpng.htm)
+**5)** Download and install [ImageMagick](http://www.imagemagick.org/) and [GraphicsMagick](http://www.graphicsmagick.org/)
 
-**6)** Download and install [ImageMagick](http://www.imagemagick.org/) and [GraphicsMagick](http://www.graphicsmagick.org/)
-
-**7)** Run CMake
+**6)** Run CMake
 
 1. Run CMake (cmake-gui).
 1. At _Where is the source code_ select the folder of OpenTP with the subfolders **opentp** and **opentp-tool**.
@@ -148,11 +136,9 @@ CMake should now be able to generate the project.
 
 *(The cmake setup guide is kindly provided by [Robert Böhm](http://robertboehm.net))*
 
-**8)** If you try to compile the project there may occur some problems:
+**7)** If you try to compile the project there may occur some problems:
 
 * Visual Studio can't find a "unistd.h" - [Here is a replacement for the unistd.h](https://github.com/Kasoki/opentp/blob/master/misc/unistd.h)
-* libpng12.dll missing - [libpng12.dll](https://github.com/Kasoki/opentp/blob/master/misc/libpng12.dll)
-* zlib1.dll missing - [zlib1.dll](https://github.com/Kasoki/opentp/blob/master/misc/zlib1.dll)
 
 ## How to use OpenTP from command line
 
