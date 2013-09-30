@@ -48,8 +48,8 @@ int main(int argc, char **argv) {
     int atlas_size_height = config.get_atlas_size_height();
     bool verbose = false;
     
-    const string imagemagick_path = "/usr/bin/convert";
-    const string graphicsmagick_path = "/usr/bin/gm";
+    const string imagemagick_path = config.get_imagemagick_path();
+    const string graphicsmagick_path = config.get_graphicsmagick_path();
     
     bool changed_configs = false;
     
