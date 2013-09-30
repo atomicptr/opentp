@@ -66,13 +66,13 @@ namespace opentp {
     }
 
     void ConfigurationManager::reload_configs() {
-        XMLDocument document;
+        tinyxml2::XMLDocument document;
         
         document.LoadFile(this->config_file_path.string().c_str());
         
-        XMLElement *root = document.RootElement();
+        tinyxml2::XMLElement *root = document.RootElement();
         
-        XMLElement *atlas_name_element = root->FirstChildElement("atlas-name");
+        tinyxml2::XMLElement *atlas_name_element = root->FirstChildElement("atlas-name");
         
         this->atlas_name = atlas_name_element->GetText() ? atlas_name_element->GetText() : "opentp_atlas";
         this->atlas_output_format = root->FirstChildElement("atlas-output-format")->GetText();
@@ -90,19 +90,19 @@ namespace opentp {
     void ConfigurationManager::save_file(string name, string output_format, string data_format, int width, int height,
                    string im_path, string gm_path) const {
         
-        XMLDocument doc;
+        tinyxml2::XMLDocument doc;
         
-        XMLDeclaration *declaration = doc.NewDeclaration();
+        tinyxml2::XMLDeclaration *declaration = doc.NewDeclaration();
         
-        XMLElement *root_node = doc.NewElement("opentp-config");
+        tinyxml2::XMLElement *root_node = doc.NewElement("opentp-config");
         
-        XMLElement *atlas_name = doc.NewElement("atlas-name");
-        XMLElement *atlas_output_format = doc.NewElement("atlas-output-format");
-        XMLElement *atlas_data_format = doc.NewElement("atlas-data-format");
-        XMLElement *atlas_width = doc.NewElement("atlas-width");
-        XMLElement *atlas_height = doc.NewElement("atlas-height");
-        XMLElement *imagemagick_path = doc.NewElement("imagemagick-path");
-        XMLElement *graphicsmagick_path = doc.NewElement("graphicsmagick-path");
+        tinyxml2::XMLElement *atlas_name = doc.NewElement("atlas-name");
+        tinyxml2::XMLElement *atlas_output_format = doc.NewElement("atlas-output-format");
+        tinyxml2::XMLElement *atlas_data_format = doc.NewElement("atlas-data-format");
+        tinyxml2::XMLElement *atlas_width = doc.NewElement("atlas-width");
+        tinyxml2::XMLElement *atlas_height = doc.NewElement("atlas-height");
+        tinyxml2::XMLElement *imagemagick_path = doc.NewElement("imagemagick-path");
+        tinyxml2::XMLElement *graphicsmagick_path = doc.NewElement("graphicsmagick-path");
         
         stringstream sswidth;
         stringstream ssheight;
@@ -110,13 +110,13 @@ namespace opentp {
         sswidth << width;
         ssheight << height;
         
-        XMLText *atlas_name_text = doc.NewText(name.c_str());
-        XMLText *atlas_output_format_text = doc.NewText(output_format.c_str());
-        XMLText *atlas_data_format_text = doc.NewText(data_format.c_str());
-        XMLText *atlas_width_text = doc.NewText(sswidth.str().c_str());
-        XMLText *atlas_height_text = doc.NewText(ssheight.str().c_str());
-        XMLText *imagemagick_path_text = doc.NewText(im_path.c_str());
-        XMLText *graphicsmagick_path_text = doc.NewText(gm_path.c_str());
+        tinyxml2::XMLText *atlas_name_text = doc.NewText(name.c_str());
+        tinyxml2::XMLText *atlas_output_format_text = doc.NewText(output_format.c_str());
+        tinyxml2::XMLText *atlas_data_format_text = doc.NewText(data_format.c_str());
+        tinyxml2::XMLText *atlas_width_text = doc.NewText(sswidth.str().c_str());
+        tinyxml2::XMLText *atlas_height_text = doc.NewText(ssheight.str().c_str());
+        tinyxml2::XMLText *imagemagick_path_text = doc.NewText(im_path.c_str());
+        tinyxml2::XMLText *graphicsmagick_path_text = doc.NewText(gm_path.c_str());
         
         atlas_name->LinkEndChild(atlas_name_text);
         atlas_output_format->LinkEndChild(atlas_output_format_text);

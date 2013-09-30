@@ -33,7 +33,6 @@
 using namespace std;
 using namespace boost::filesystem;
 
-using namespace tinyxml2;
 using namespace opentp;
 
 namespace opentp {

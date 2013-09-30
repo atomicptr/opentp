@@ -33,8 +33,6 @@
 using namespace std;
 using namespace boost::filesystem;
 
-using namespace tinyxml2;
-
 namespace opentp {
 
     class ConfigurationManager {

@@ -65,11 +65,11 @@ namespace opentp {
     }
 
     void AtlasData::save_xml(path filepath) const {
-        XMLDocument doc;
+        tinyxml2::XMLDocument doc;
         
-        XMLDeclaration *declaration = doc.NewDeclaration();
+        tinyxml2::XMLDeclaration *declaration = doc.NewDeclaration();
         
-        XMLElement *root_node = doc.NewElement("texture-atlas");
+        tinyxml2::XMLElement *root_node = doc.NewElement("texture-atlas");
         
         int size = items.size();
         
@@ -77,12 +77,12 @@ namespace opentp {
             AtlasDataItem *item = items[i];
             
             // create new element
-            XMLElement *texture = doc.NewElement("texture");
+            tinyxml2::XMLElement *texture = doc.NewElement("texture");
             
             texture->SetAttribute("atlas_file", item->atlas_file.c_str());
             texture->SetAttribute("name", item->name.c_str());
             
-            XMLElement *position = doc.NewElement("position");
+            tinyxml2::XMLElement *position = doc.NewElement("position");
             
             position->SetAttribute("x", item->x);
             position->SetAttribute("y", item->y);
