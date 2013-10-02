@@ -114,6 +114,11 @@ namespace opentp {
     }
 
     void OpenTP::generate_atlas() {
+        // if verbose enabled, print version
+        if(verbose) {
+            cout << "opentp v" << this->get_version() << endl;
+        }
+        
         list<AtlasTexture*> *supported_images = this->get_supported_images();
         
         if(verbose) {

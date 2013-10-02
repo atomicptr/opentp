@@ -236,6 +236,20 @@ int main(int argc, char **argv) {
         atlas_name = map["name"].as<string>();
     }
     
+    // if verbose is enabled, print all options
+    if(verbose) {
+        cout << "Configurations:" << endl;
+        cout << "\tatlas-name = " << atlas_name << endl;
+        cout << "\ttexture_directory = " << texture_directory << endl;
+        cout << "\tatlas_destination_directory = " << atlas_destination_directory << endl;
+        cout << "\tatlas_output_format = " << atlas_output_format << endl;
+        cout << "\tatlas_data_format = " << atlas_data_format << endl;
+        cout << "\tatlas_size: = (" << atlas_size_width << ", " << atlas_size_height << ")" << endl;
+        cout << "\timagemagick_path = " << imagemagick_path << endl;
+        cout << "\tgraphicsmagick_path = " << graphicsmagick_path << endl;
+        
+    }
+    
     tp.set_texture_directory(texture_directory);
     tp.set_atlas_destination_directory(atlas_destination_directory);
     tp.set_atlas_name(atlas_name);
