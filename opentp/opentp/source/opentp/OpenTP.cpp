@@ -121,8 +121,12 @@ namespace opentp {
         
         list<AtlasTexture*> *supported_images = this->get_supported_images();
         
+        if(supported_images->size() == 0) {
+            cout << "opentp: No images found in specified directory." << endl;
+        }
+        
         if(verbose) {
-            cout << "OpenTP: " << supported_images->size() << " valid images found." << endl;
+            cout << "opentp: " << supported_images->size() << " valid images found." << endl;
         }
             
         // sort the list by square pixels
