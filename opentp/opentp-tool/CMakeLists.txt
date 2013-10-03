@@ -37,7 +37,7 @@ if(NOT WIN32)
 endif(NOT WIN32)
 
 # find libPNG
-find_package(PNG REQUIRED)
+find_package(PNG 1.4 REQUIRED)
 
 include_directories(${PNG_INCLUDE_DIR})
 
