@@ -60,8 +60,19 @@ install(PROGRAMS ${CMAKE_CURRENT_BINARY_DIR}/opentp-tool DESTINATION bin)
 # cpack settings
 set(CPACK_PACKAGE_NAME "opentp-tool")
 set(CPACK_PACKAGE_VENDOR "Christopher Kaster")
+set(CPACK_PACKAGE_VERSION "0.1.2")
 set(CPACK_PACKAGE_DESCRTION_SUMMARY "opentp - Open tool for texture packing")
 set(CPACK_PACKAGE_INSTALL_DIRECTORY "opentp")
+set(CPACK_RESOURCE_FILE_LICENCE "/Users/kasoki/Projects/opentp/licences/OpenTP_MIT_Licence.txt")
 
 # cpack osx settings
 set(CPACK_BUNDLE_NAME "opentp")
+
+# cpack DEB settings
+set(CPACK_DEBIAN_PACKAGE_MAINTAINER "Christopher Kaster")
+set(CPACK_DEBIAN_PACKAGE_DEPENDS "libpng12-0")
+
+# cpack RPM settings
+set(CPACK_RPM_PACKAGE_REQUIRES "libpng-devel")
+set(CPACK_RPM_PACKAGE_LICENCE "MIT")
+
