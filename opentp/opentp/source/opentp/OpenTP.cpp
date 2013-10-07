@@ -30,7 +30,7 @@ namespace opentp {
         this->atlas_destination_directory = "atlas";
         this->atlas_name = "opentp_atlas";
         this->output_format = "png";
-        this->data_format = "json";
+        this->data_format = "xml";
         this->atlas_width = 512;
         this->atlas_height = 512;
     }
@@ -259,7 +259,7 @@ namespace opentp {
             _tmp_path /= filename;
             
             // TODO: improve this statement
-            if(!(extension(_tmp_path) == ".png" || extension(_tmp_path) == ".jpg" || extension(_tmp_path) == ".gif")) {
+            if(!(extension(_tmp_path) == ".png" || extension(_tmp_path) == ".gif")) {
                 if(verbose) {
                     cout << "Unknown extension: " << extension(_tmp_path) << endl;
                 }
