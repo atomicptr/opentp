@@ -114,6 +114,9 @@ namespace opentp {
     }
 
     void OpenTP::generate_atlas() {
+        // take start time
+        const clock_t start_time = clock();
+        
         // if verbose enabled, print version
         if(verbose) {
             cout << "opentp v" << this->get_version() << endl;
@@ -228,8 +231,11 @@ namespace opentp {
         // save AtlasData set
         atlas_data_set.save(atlas_data_set_path, data_format);
         
+        // calculate time
+        float execution_time = float(clock() - start_time) / CLOCKS_PER_SEC;
+        
         // atlas creation finished
-        cout << "opentp: Finished atlas creation after %d seconds." << endl;
+        cout << "opentp: Finished atlas creation after " << execution_time << " seconds." << endl;
         
         // delete supported images (list and all images)
         this->delete_list_with_images(supported_images);

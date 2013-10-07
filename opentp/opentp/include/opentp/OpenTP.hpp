@@ -32,6 +32,7 @@
 #include <sstream>
 #include <list>
 #include <algorithm>
+#include <time.h>
 #include <boost/filesystem.hpp>
 
 #include <opentp/AtlasData.hpp>
