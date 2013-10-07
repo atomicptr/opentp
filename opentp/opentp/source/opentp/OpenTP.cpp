@@ -272,13 +272,24 @@ namespace opentp {
             int width = image->get_width();
             int height = image->get_height();
             
+            delete image;
+            
+            // if image is bigger than atlas, continue
+            if(width > this->atlas_width || height > this->atlas_height) {
+                cout << "opentp: " << filename << " (" << width << "x" << height <<
+                    ") is too big (atlas size is " << this->atlas_width << "x" <<
+                    atlas_height << ")" << endl;
+                
+                continue;
+            }
+            
             supported_images->push_back(new AtlasTexture(filename, _tmp_path, width, height));
             
             if(verbose) {
                 cout << "found texture: " << filename << " (" << width << "x" << height << ")" << endl;
             }
             
-            delete image;
+            
         }
         
         return supported_images;
