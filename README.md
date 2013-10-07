@@ -22,8 +22,7 @@ coming soon...
 ## Dependencies
 
 * **boost library** (tested with 1.54.0)
-* **X11 library** (not required for Windows)
-* **libPNG** (tested with 1.5.14)
+* **libPNG** (tested with 1.4.12)
 * **ImageMagick** (tested with 6.8.6-3)
 * **GraphicsMagick** (tested with 1.3.18)
 
@@ -38,6 +37,5 @@ OpenTP is using several 3rd party libs and snippets intern, so that you don't ne
 
 Used libs and snippets:
 
-* [CImg](), an awesome image processing library
-* An [unistd.h replacement](http://stackoverflow.com/a/826027) for Windows from [AShelly](http://stackoverflow.com/users/10396/ashelly)
+* [CImg](http://cimg.sourceforge.net/), an awesome image processing library
 * [TinyXML2](https://github.com/leethomason/tinyxml2), a great xml parser
