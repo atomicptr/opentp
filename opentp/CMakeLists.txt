@@ -36,3 +36,6 @@ add_definitions(-Dcimg_use_png)
 
 add_subdirectory(opentp)
 add_subdirectory(opentp-tool)
+
+# include cpack
+include(CPack)

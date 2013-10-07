@@ -37,7 +37,7 @@ if(NOT WIN32)
 endif(NOT WIN32)
 
 # find libPNG
-find_package(PNG 1.4 REQUIRED)
+find_package(PNG REQUIRED)
 
 include_directories(${PNG_INCLUDE_DIR})
 
@@ -62,3 +62,14 @@ add_custom_command(
 )
 
 add_custom_target(opentp-tool-textures ALL DEPENDS ${CMAKE_CURRENT_BINARY_DIR}/textures)
+
+install(PROGRAMS ${CMAKE_CURRENT_BINARY_DIR}/opentp-tool DESTINATION bin)
+
+# cpack settings
+set(CPACK_PACKAGE_NAME "opentp-tool")
+set(CPACK_PACKAGE_VENDOR "Christopher Kaster")
+set(CPACK_PACKAGE_DESCRTION_SUMMARY "opentp - Open tool for texture packing")
+set(CPACK_PACKAGE_INSTALL_DIRECTORY "opentp")
+
+# cpack osx settings
+set(CPACK_BUNDLE_NAME "opentp")
