@@ -47,6 +47,7 @@ int main(int argc, char **argv) {
     int atlas_size_width = config.get_atlas_size_width();
     int atlas_size_height = config.get_atlas_size_height();
     bool verbose = false;
+    bool be_quiet = false;
     
     const string imagemagick_path = config.get_imagemagick_path();
     const string graphicsmagick_path = config.get_graphicsmagick_path();
@@ -73,6 +74,7 @@ int main(int argc, char **argv) {
     
     atlas_generation.add_options()
         ("verbose", "be verbose")
+        ("quiet", "tell the program to make no noise, if verbose is enabled this option is ignored")
         ("textures,t", value<string>(), "get textures from <directory>")
         ("output,o", value<string>(), "place the output into <directory>")
         ("width,w", value<int>(), "set atlas width (only width will set height to the same value)")
@@ -214,6 +216,8 @@ int main(int argc, char **argv) {
     
     if(map.count("verbose")) {
         verbose = true;
+    } else if(map.count("quiet")) {
+        be_quiet = true;
     }
     
     if(map.count("width")) {
@@ -257,6 +261,7 @@ int main(int argc, char **argv) {
     tp.set_atlas_data_format(atlas_data_format);
     tp.set_atlas_size(atlas_size_width, atlas_size_height);
     tp.set_verbose(verbose);
+    tp.set_quiet(be_quiet);
     
     tp.set_imagemagick_path(imagemagick_path);
     tp.set_graphicsmagick_path(graphicsmagick_path);

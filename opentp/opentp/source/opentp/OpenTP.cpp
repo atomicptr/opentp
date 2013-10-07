@@ -33,6 +33,8 @@ namespace opentp {
         this->data_format = "xml";
         this->atlas_width = 512;
         this->atlas_height = 512;
+        this->verbose = false;
+        this->be_quiet = false;
     }
 
     OpenTP::~OpenTP() {
@@ -73,6 +75,10 @@ namespace opentp {
 
     void OpenTP::set_verbose(bool verbose) {
         this->verbose = verbose;
+    }
+    
+    void OpenTP::set_quiet(bool be_quiet) {
+        this->be_quiet = be_quiet;
     }
 
     void OpenTP::set_imagemagick_path(string convert_path) const {
@@ -124,7 +130,7 @@ namespace opentp {
         
         list<AtlasTexture*> *supported_images = this->get_supported_images();
         
-        if(supported_images->size() == 0) {
+        if(supported_images->size() == 0 && (!be_quiet || verbose)) {
             cout << "opentp: No images found in specified directory." << endl;
         }
         
@@ -235,8 +241,10 @@ namespace opentp {
         float execution_time = float(clock() - start_time) / CLOCKS_PER_SEC;
         
         // atlas creation finished
-        cout << "opentp: Finished atlas creation after " << execution_time << " seconds." << endl;
-        
+        if(!be_quiet || verbose) {
+            cout << "opentp: Finished atlas creation after " << execution_time << " seconds." << endl;
+        }
+            
         // delete supported images (list and all images)
         this->delete_list_with_images(supported_images);
     }
@@ -282,9 +290,11 @@ namespace opentp {
             
             // if image is bigger than atlas, continue
             if(width > this->atlas_width || height > this->atlas_height) {
-                cout << "opentp: " << filename << " (" << width << "x" << height <<
-                    ") is too big (atlas size is " << this->atlas_width << "x" <<
-                    atlas_height << ")" << endl;
+                if(!be_quiet || verbose) {
+                    cout << "opentp: " << filename << " (" << width << "x" << height <<
+                        ") is too big (atlas size is " << this->atlas_width << "x" <<
+                        atlas_height << ")" << endl;
+                }
                 
                 continue;
             }

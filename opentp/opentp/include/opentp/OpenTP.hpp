@@ -60,6 +60,7 @@ namespace opentp {
         void set_atlas_data_format(string);
         void set_atlas_size(int, int);
         void set_verbose(bool);
+        void set_quiet(bool);
         void set_imagemagick_path(string) const;
         void set_graphicsmagick_path(string) const;
         
@@ -77,6 +78,7 @@ namespace opentp {
         int atlas_width;
         int atlas_height;
         bool verbose;
+        bool be_quiet;
         
         void delete_list_with_images(list<AtlasTexture*>*);
         list<AtlasTexture*> *get_supported_images();
