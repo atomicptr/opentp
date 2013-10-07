@@ -29,14 +29,6 @@ find_package(Boost REQUIRED COMPONENTS system filesystem)
 link_directories(${Boost_LIBRARY_DIRS})
 include_directories(${Boost_INCLUDE_DIR})
 
-# if not windows, find x11
-if(NOT WIN32)
-    find_package(X11 REQUIRED)
-
-    link_directories(${X11_LIBRARIES})
-    include_directories(${X11_INCLUDE_DIR})
-endif(NOT WIN32)
-
 # find libPNG
 find_package(PNG REQUIRED)
 
@@ -73,4 +65,4 @@ ELSE(BUILD_SHARED_LIB)
     ENDIF(BUILD_STATIC_LIBS)
 ENDIF(BUILD_SHARED_LIBS)
 
-target_link_libraries(opentp ${Boost_LIBRARIES} ${X11_LIBRARIES} ${PNG_LIBRARY})
+target_link_libraries(opentp ${Boost_LIBRARIES} ${PNG_LIBRARY})

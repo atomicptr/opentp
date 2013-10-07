@@ -28,14 +28,6 @@ find_package(Boost REQUIRED COMPONENTS system filesystem program_options)
 link_directories(${Boost_LIBRARY_DIRS})
 include_directories(${Boost_INCLUDE_DIR})
 
-# if not windows, find X11
-if(NOT WIN32)
-    find_package(X11 REQUIRED)
-
-    link_directories(${X11_LIBRARIES})
-    include_directories(${X11_INCLUDE_DIR})
-endif(NOT WIN32)
-
 # find libPNG
 find_package(PNG REQUIRED)
 
@@ -52,7 +44,7 @@ file(GLOB OPENTP_TOOL_SOURCES "source/*.cpp")
 
 add_executable(opentp-tool ${OPENTP_TOOL_SOURCES})
 
-target_link_libraries(opentp-tool opentp ${Boost_LIBRARIES} ${X11_LIBRARIES} ${PNG_LIBRARY} ${CMAKE_THREAD_LIBS_INIT})
+target_link_libraries(opentp-tool opentp ${Boost_LIBRARIES} ${PNG_LIBRARY} ${CMAKE_THREAD_LIBS_INIT})
 add_dependencies(opentp-tool opentp)
 
 add_custom_command(
